@@ -5,135 +5,231 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Portfolio — Ton Nom</title>
   <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Portfolio design — glassmorphism, animations premium, projets et certifications.">
 </head>
 <body>
-  <header class="nav">
+  <div class="page-bg" id="pageBg"></div>
+
+  <header class="nav" id="siteNav">
     <div class="nav-inner">
-      <div class="brand">Ton Nom</div>
-      <nav>
+      <div class="brand">Ton <span class="accent">Nom</span></div>
+      <nav class="links" id="navLinks">
         <a href="#home">Accueil</a>
         <a href="#projets">Projets</a>
         <a href="#certifications">Certifications</a>
         <a href="#contact">Contact</a>
       </nav>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
   <main>
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <h1>Designer UI / UX — Créateur d'expériences élégantes</h1>
-        <p class="lead">Portfolio — style "verre liquide", animations fluides et hiérarchie nette.</p>
-        <a class="cta" href="#projets">Voir mes projets</a>
+    <section id="home" class="hero section">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <h1 class="title">Ton Nom — Designer UI &amp; Product</h1>
+          <p class="lead">Je crée des interfaces élégantes, simples et mémorables. Glassmorphism, motion &amp; design system.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#projets">Mes projets</a>
+            <a class="btn ghost" href="#contact">Contact</a>
+          </div>
+
+          <div class="contact-cards">
+            <a class="card contact-card" href="mailto:ton.email@example.com">
+              <svg viewBox="0 0 24 24" class="icon" aria-hidden><path d="M3 8.5v7A2.5 2.5 0 0 0 5.5 18h13a2.5 2.5 0 0 0 2.5-2.5v-7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div>
+                <div class="small">Mail</div>
+                <div class="big">ton.email@example.com</div>
+              </div>
+            </a>
+
+            <a class="card contact-card" href="tel:+33123456789">
+              <svg viewBox="0 0 24 24" class="icon" aria-hidden><path d="M22 16.92V21a1 1 0 0 1-1.11 1A19 19 0 0 1 3 5.11 1 1 0 0 1 4 4h4.09a1 1 0 0 1 1 .75 12.72 12.72 0 0 0 .7 2.28 1 1 0 0 1-.24 1L8.91 10.91a16 16 0 0 0 5.18 5.18l1.87-1.63a1 1 0 0 1 1.05-.24 12.72 12.72 0 0 0 2.29.7 1 1 0 0 1 .76 1V21z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div>
+                <div class="small">Tel</div>
+                <div class="big">+33 1 23 45 67 89</div>
+              </div>
+            </a>
+
+            <a class="card contact-card" href="https://www.linkedin.com/in/tonprofil" target="_blank">
+              <svg viewBox="0 0 24 24" class="icon" aria-hidden><path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4v-12h4v2a4 4 0 0 1 4-2zM2 9h4v12H2zM4 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div>
+                <div class="small">LinkedIn</div>
+                <div class="big">/in/tonprofil</div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+
+        <div class="hero-right" id="heroRight">
+          <div class="glass-card hero-panel">
+            <div class="panel-title">Featured</div>
+            <div class="panel-body">
+              <h3>App Banking — Rebranding</h3>
+              <p class="meta">Lead UI • Figma • 2024</p>
+              <div class="mockup-mini" aria-hidden>
+                <svg viewBox="0 0 200 120" class="mockup-svg">
+                  <rect x="6" y="6" width="188" height="108" rx="12" fill="rgba(255,255,255,0.04)"/>
+                  <circle cx="40" cy="48" r="16" fill="rgba(255,255,255,0.06)"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card stats-panel">
+            <div class="stat">
+              <div class="num">8+</div>
+              <div class="label">Années</div>
+            </div>
+            <div class="stat">
+              <div class="num">120+</div>
+              <div class="label">Screens</div>
+            </div>
+            <div class="stat">
+              <div class="num">30</div>
+              <div class="label">Projets</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="hero-decor"></div>
     </section>
 
-    <section id="projets" class="projects">
-      <h2>Projets phares</h2>
-      <p class="subtitle">Sélection de projets design et UI/UX</p>
-      <div class="grid">
-        <article class="project-card">
-          <div class="mockup">
-            <!-- decorative SVG -->
-            <svg viewBox="0 0 200 120" class="mockup-svg" aria-hidden>
-              <rect x="6" y="6" width="188" height="108" rx="14" fill="rgba(255,255,255,0.06)"/>
-              <circle cx="40" cy="50" r="18" fill="rgba(255,255,255,0.08)"/>
-              <rect x="70" y="36" width="110" height="10" rx="4" fill="rgba(255,255,255,0.08)"/>
-              <rect x="70" y="56" width="80" height="8" rx="4" fill="rgba(255,255,255,0.06)"/>
+    <section id="projets" class="projects section">
+      <h2 class="section-title">Projets phares</h2>
+      <p class="section-sub">Sélection de projets design et UI/UX — hover pour voir plus d'interaction.</p>
+
+      <div class="projects-grid">
+        <!-- Project Card 1 -->
+        <article class="project glass-card project-tilt" tabindex="0" data-desc="Rebranding complet d'une app de banque mobile.">
+          <div class="project-media">
+            <svg viewBox="0 0 300 180" class="project-svg" aria-hidden>
+              <rect x="8" y="8" width="284" height="164" rx="14" fill="rgba(255,255,255,0.03)"/>
             </svg>
           </div>
-          <div class="project-info">
+          <div class="project-body">
             <h3>App Banking — Rebranding</h3>
-            <p class="meta">Rôle: Lead UI / Outils: Figma, Framer • 2024</p>
-            <p>Refonte complète de l'expérience mobile, réduction des frictions et amélioration des conversions.</p>
+            <p class="meta">Lead UI • Figma • 2024</p>
           </div>
         </article>
 
-        <article class="project-card">
-          <div class="mockup">
-            <svg viewBox="0 0 200 120" class="mockup-svg" aria-hidden>
-              <rect x="6" y="6" width="188" height="108" rx="14" fill="rgba(255,255,255,0.05)"/>
-              <rect x="20" y="20" width="160" height="14" rx="6" fill="rgba(255,255,255,0.07)"/>
-              <rect x="20" y="44" width="120" height="10" rx="5" fill="rgba(255,255,255,0.06)"/>
-              <rect x="20" y="64" width="80" height="8" rx="4" fill="rgba(255,255,255,0.04)"/>
+        <!-- Project Card 2 -->
+        <article class="project glass-card project-tilt" tabindex="0" data-desc="Système de composants pour une plateforme SaaS.">
+          <div class="project-media">
+            <svg viewBox="0 0 300 180" class="project-svg" aria-hidden>
+              <rect x="8" y="8" width="284" height="164" rx="14" fill="rgba(255,255,255,0.03)"/>
             </svg>
           </div>
-          <div class="project-info">
-            <h3>Design System — Plateforme SaaS</h3>
-            <p class="meta">Rôle: Design System • Outils: Storybook, Figma • 2023</p>
-            <p>Création d'un système de composants réutilisables pour homogénéiser l'interface produit.</p>
+          <div class="project-body">
+            <h3>Design System — SaaS</h3>
+            <p class="meta">Design System • Storybook • 2023</p>
           </div>
         </article>
 
+        <!-- Project Card 3 -->
+        <article class="project glass-card project-tilt" tabindex="0" data-desc="Prototype interactif pour une startup HealthTech.">
+          <div class="project-media">
+            <svg viewBox="0 0 300 180" class="project-svg" aria-hidden>
+              <rect x="8" y="8" width="284" height="164" rx="14" fill="rgba(255,255,255,0.03)"/>
+            </svg>
+          </div>
+          <div class="project-body">
+            <h3>HealthTech — Prototype</h3>
+            <p class="meta">Product Design • Figma • 2022</p>
+          </div>
+        </article>
       </div>
     </section>
 
-    <section id="certifications" class="certifications-section">
-      <h2>Certifications</h2>
-      <p class="subtitle">Compétences validées par des organismes reconnus</p>
+    <section id="certifications" class="certifications section">
+      <h2 class="section-title">Certifications</h2>
+      <p class="section-sub">Compétences validées par des organismes reconnus</p>
 
       <div class="cert-grid">
-        <div class="cert-card">
-          <div class="cert-top">
-            <svg class="cert-logo" viewBox="0 0 100 100" aria-hidden>
-              <rect x="8" y="8" width="84" height="84" rx="16" fill="white" opacity="0.08"/>
-              <text x="50" y="58" text-anchor="middle" font-size="28" font-family="sans-serif" fill="white">G</text>
-            </svg>
-          </div>
-          <div class="cert-body">
+        <div class="cert-card glass-card">
+          <div class="logo">G</div>
+          <div class="cert-info">
             <h3>Google UX Design</h3>
             <p class="meta">2023 • Certificat vérifiable</p>
-            <a class="badge-link" href="#" onclick="alert('Lien de vérification non fourni — remplacez par l\'URL réelle.')">Voir la preuve</a>
+            <a class="link" href="#" onclick="alert('Remplacez par le lien réel de vérification.')">Voir la preuve</a>
           </div>
         </div>
 
-        <div class="cert-card">
-          <div class="cert-top">
-            <svg class="cert-logo" viewBox="0 0 100 100" aria-hidden>
-              <rect x="8" y="8" width="84" height="84" rx="16" fill="white" opacity="0.08"/>
-              <text x="50" y="58" text-anchor="middle" font-size="20" font-family="sans-serif" fill="white">Adobe</text>
-            </svg>
-          </div>
-          <div class="cert-body">
+        <div class="cert-card glass-card">
+          <div class="logo">Adobe</div>
+          <div class="cert-info">
             <h3>Adobe Creative Cloud Expert</h3>
             <p class="meta">2024</p>
-            <a class="badge-link" href="#" onclick="alert('Remplacez par l\'URL de certification Adobe si disponible.')">Voir la preuve</a>
+            <a class="link" href="#" onclick="alert('Remplacez par le lien réel de vérification.')">Voir la preuve</a>
           </div>
         </div>
 
-        <div class="cert-card">
-          <div class="cert-top">
-            <svg class="cert-logo" viewBox="0 0 100 100" aria-hidden>
-              <rect x="8" y="8" width="84" height="84" rx="16" fill="white" opacity="0.08"/>
-              <text x="50" y="58" text-anchor="middle" font-size="18" font-family="sans-serif" fill="white">AWS</text>
-            </svg>
-          </div>
-          <div class="cert-body">
+        <div class="cert-card glass-card">
+          <div class="logo">AWS</div>
+          <div class="cert-info">
             <h3>AWS Solutions Architect</h3>
             <p class="meta">2025</p>
-            <a class="badge-link" href="#" onclick="alert('Insérer URL de vérification AWS ici.')">Voir la preuve</a>
+            <a class="link" href="#" onclick="alert('Remplacez par le lien réel de vérification.')">Voir la preuve</a>
           </div>
         </div>
-
       </div>
     </section>
 
-    <section id="contact" class="contact">
-      <h2>Contact</h2>
-      <p class="subtitle">Disponible pour missions freelance et collaborations</p>
-      <form class="contact-form" onsubmit="event.preventDefault(); alert('Merci — formulaire de contact fictif. Remplacez par l\'action serveur.');">
-        <input type="text" name="name" placeholder="Ton nom" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <textarea name="message" placeholder="Ton message" rows="5" required></textarea>
-        <button type="submit" class="cta">Envoyer</button>
-      </form>
+    <section id="contact" class="contact section">
+      <h2 class="section-title">Contact</h2>
+      <p class="section-sub">Disponible pour missions freelance et collaborations — contacte-moi directement.</p>
+
+      <div class="contact-wrap">
+        <div class="contact-left">
+          <div class="glass-card contact-panel">
+            <h3>Contact direct</h3>
+            <div class="contact-list">
+              <a class="contact-item" href="mailto:ton.email@example.com">
+                <svg viewBox="0 0 24 24" class="icon-sm" aria-hidden><path d="M3 8.5v7A2.5 2.5 0 0 0 5.5 18h13a2.5 2.5 0 0 0 2.5-2.5v-7" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div><div class="small">Email</div><div class="big">ton.email@example.com</div></div>
+              </a>
+
+              <a class="contact-item" href="tel:+33123456789">
+                <svg viewBox="0 0 24 24" class="icon-sm" aria-hidden><path d="M22 16.92V21a1 1 0 0 1-1.11 1A19 19 0 0 1 3 5.11 1 1 0 0 1 4 4h4.09a1 1 0 0 1 1 .75 12.72 12.72 0 0 0 .7 2.28 1 1 0 0 1-.24 1L8.91 10.91a16 16 0 0 0 5.18 5.18l1.87-1.63a1 1 0 0 1 1.05-.24 12.72 12.72 0 0 0 2.29.7 1 1 0 0 1 .76 1V21z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div><div class="small">Téléphone</div><div class="big">+33 1 23 45 67 89</div></div>
+              </a>
+
+              <a class="contact-item" href="https://www.linkedin.com/in/tonprofil" target="_blank">
+                <svg viewBox="0 0 24 24" class="icon-sm" aria-hidden><path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4v-12h4v2a4 4 0 0 1 4-2zM2 9h4v12H2zM4 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div><div class="small">LinkedIn</div><div class="big">/in/tonprofil</div></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-right">
+          <form class="glass-card contact-form" onsubmit="event.preventDefault(); alert('Merci — message envoyé (simulé).');">
+            <div class="form-row">
+              <input type="text" name="name" placeholder="Ton nom" required>
+              <input type="email" name="email" placeholder="Ton email" required>
+            </div>
+            <textarea name="message" placeholder="Ton message" rows="6" required></textarea>
+            <div class="form-actions">
+              <button class="btn primary" type="submit">Envoyer</button>
+              <button class="btn ghost" type="reset">Effacer</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </section>
 
   </main>
 
   <footer class="footer">
-    <div>© <span id="year"></span> Ton Nom — Tous droits réservés</div>
+    <div class="glass-card footer-card">
+      <div>© <span id="year2"></span> Ton Nom — Tous droits réservés</div>
+      <div class="socials">
+        <a href="#" onclick="alert('Remplace par ton lien Dribbble')">Dribbble</a>
+        <a href="#" onclick="alert('Remplace par ton lien GitHub')">GitHub</a>
+      </div>
+    </div>
   </footer>
 
   <script src="script.js"></script>

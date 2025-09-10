@@ -1,19 +1,15 @@
-# Portfolio — Glass-style (Apple-inspired)
+# Portfolio — Premium Glass (Apple-style)
 
-Ce dépôt contient un site statique (HTML/CSS/JS) pour un portfolio de designer, avec une section **Certifications** stylée "verre liquide" à la Apple.
+Version améliorée du portfolio : header animé, parallax, tilt 3D, animations au scroll, cartes de contact (mail, téléphone, LinkedIn), sections Projets / Certifications / Contact.
 
-## Fichiers
-- `index.html` — page principale
-- `styles.css` — styles (glassmorphism, responsive)
-- `script.js` — interactions simples (smooth scroll, année dynamique)
-- `README.md` — ce fichier
+## Installation
+- Dézippe le fichier.
+- Ouvre `index.html` dans ton navigateur.
+- Personnalise les textes et liens (email, téléphone, LinkedIn).
 
-## Personnalisation
-- Remplace les textes (Ton Nom, descriptions, projets).
-- Ajoute les URLs de preuve de certification dans les liens "Voir la preuve".
-- Intègre tes logos réels (remplace les SVG placeholders dans `index.html`).
+## Déploiement
+- Pousse le dossier vers GitHub et active GitHub Pages, ou déploie sur Netlify / Vercel.
 
-## Déploiement rapide
-Tu peux déployer ce dossier sur Netlify, Vercel, GitHub Pages:
-- Sur GitHub Pages, crée un repo et pousse ces fichiers dans la branche `main`, puis active Pages.
-
+## Remplacer
+- Remplace les placeholders d'email/téléphone/LinkedIn par tes vraies coordonnées.
+- Ajoute des images SVG/PNG pour les projets si tu veux plus de réalisme.
