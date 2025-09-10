@@ -1,15 +1,18 @@
-# Portfolio — Premium Glass (Apple-style)
+# Portfolio — Arab Rayan (BTS SIO)
 
-Version améliorée du portfolio : header animé, parallax, tilt 3D, animations au scroll, cartes de contact (mail, téléphone, LinkedIn), sections Projets / Certifications / Contact.
+Site statique prêt à l'emploi (HTML/CSS/JS). Personnalisé pour:
+- Nom: Arab Rayan
+- BTS: SIO (Lycée Turgot, Paris)
+- Certifications: PIX, PRAP, Diplôme de secouriste
+- Contact: email, téléphone, LinkedIn (liens placeholders à remplacer)
 
-## Installation
-- Dézippe le fichier.
-- Ouvre `index.html` dans ton navigateur.
-- Personnalise les textes et liens (email, téléphone, LinkedIn).
+## Contenu
+- index.html, styles.css, script.js
+- Sections: Accueil, À propos, Compétences, Projets (cyber), Certifications, Formation, Contact
 
-## Déploiement
-- Pousse le dossier vers GitHub et active GitHub Pages, ou déploie sur Netlify / Vercel.
+## Personnalisation
+- Remplace les emails / téléphone / LinkedIn par tes vraies coordonnées.
+- Ajoute des images réelles dans `assets/` et modifie les balises <svg> si tu veux des images PNG/SVG.
+- Déploie sur GitHub Pages, Netlify, Vercel.
 
-## Remplacer
-- Remplace les placeholders d'email/téléphone/LinkedIn par tes vraies coordonnées.
-- Ajoute des images SVG/PNG pour les projets si tu veux plus de réalisme.
+Bonne chance — modifie librement et dis‑moi si tu veux la version React ou le fichier Figma.
