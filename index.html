@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio — Ton Nom</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="brand">Ton Nom</div>
+      <nav>
+        <a href="#home">Accueil</a>
+        <a href="#projets">Projets</a>
+        <a href="#certifications">Certifications</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>Designer UI / UX — Créateur d'expériences élégantes</h1>
+        <p class="lead">Portfolio — style "verre liquide", animations fluides et hiérarchie nette.</p>
+        <a class="cta" href="#projets">Voir mes projets</a>
+      </div>
+      <div class="hero-decor"></div>
+    </section>
+
+    <section id="projets" class="projects">
+      <h2>Projets phares</h2>
+      <p class="subtitle">Sélection de projets design et UI/UX</p>
+      <div class="grid">
+        <article class="project-card">
+          <div class="mockup">
+            <!-- decorative SVG -->
+            <svg viewBox="0 0 200 120" class="mockup-svg" aria-hidden>
+              <rect x="6" y="6" width="188" height="108" rx="14" fill="rgba(255,255,255,0.06)"/>
+              <circle cx="40" cy="50" r="18" fill="rgba(255,255,255,0.08)"/>
+              <rect x="70" y="36" width="110" height="10" rx="4" fill="rgba(255,255,255,0.08)"/>
+              <rect x="70" y="56" width="80" height="8" rx="4" fill="rgba(255,255,255,0.06)"/>
+            </svg>
+          </div>
+          <div class="project-info">
+            <h3>App Banking — Rebranding</h3>
+            <p class="meta">Rôle: Lead UI / Outils: Figma, Framer • 2024</p>
+            <p>Refonte complète de l'expérience mobile, réduction des frictions et amélioration des conversions.</p>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="mockup">
+            <svg viewBox="0 0 200 120" class="mockup-svg" aria-hidden>
+              <rect x="6" y="6" width="188" height="108" rx="14" fill="rgba(255,255,255,0.05)"/>
+              <rect x="20" y="20" width="160" height="14" rx="6" fill="rgba(255,255,255,0.07)"/>
+              <rect x="20" y="44" width="120" height="10" rx="5" fill="rgba(255,255,255,0.06)"/>
+              <rect x="20" y="64" width="80" height="8" rx="4" fill="rgba(255,255,255,0.04)"/>
+            </svg>
+          </div>
+          <div class="project-info">
+            <h3>Design System — Plateforme SaaS</h3>
+            <p class="meta">Rôle: Design System • Outils: Storybook, Figma • 2023</p>
+            <p>Création d'un système de composants réutilisables pour homogénéiser l'interface produit.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="certifications" class="certifications-section">
+      <h2>Certifications</h2>
+      <p class="subtitle">Compétences validées par des organismes reconnus</p>
+
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-top">
+            <svg class="cert-logo" viewBox="0 0 100 100" aria-hidden>
+              <rect x="8" y="8" width="84" height="84" rx="16" fill="white" opacity="0.08"/>
+              <text x="50" y="58" text-anchor="middle" font-size="28" font-family="sans-serif" fill="white">G</text>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <h3>Google UX Design</h3>
+            <p class="meta">2023 • Certificat vérifiable</p>
+            <a class="badge-link" href="#" onclick="alert('Lien de vérification non fourni — remplacez par l\'URL réelle.')">Voir la preuve</a>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-top">
+            <svg class="cert-logo" viewBox="0 0 100 100" aria-hidden>
+              <rect x="8" y="8" width="84" height="84" rx="16" fill="white" opacity="0.08"/>
+              <text x="50" y="58" text-anchor="middle" font-size="20" font-family="sans-serif" fill="white">Adobe</text>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <h3>Adobe Creative Cloud Expert</h3>
+            <p class="meta">2024</p>
+            <a class="badge-link" href="#" onclick="alert('Remplacez par l\'URL de certification Adobe si disponible.')">Voir la preuve</a>
+          </div>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-top">
+            <svg class="cert-logo" viewBox="0 0 100 100" aria-hidden>
+              <rect x="8" y="8" width="84" height="84" rx="16" fill="white" opacity="0.08"/>
+              <text x="50" y="58" text-anchor="middle" font-size="18" font-family="sans-serif" fill="white">AWS</text>
+            </svg>
+          </div>
+          <div class="cert-body">
+            <h3>AWS Solutions Architect</h3>
+            <p class="meta">2025</p>
+            <a class="badge-link" href="#" onclick="alert('Insérer URL de vérification AWS ici.')">Voir la preuve</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Contact</h2>
+      <p class="subtitle">Disponible pour missions freelance et collaborations</p>
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('Merci — formulaire de contact fictif. Remplacez par l\'action serveur.');">
+        <input type="text" name="name" placeholder="Ton nom" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <textarea name="message" placeholder="Ton message" rows="5" required></textarea>
+        <button type="submit" class="cta">Envoyer</button>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div>© <span id="year"></span> Ton Nom — Tous droits réservés</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
