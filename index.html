@@ -1,310 +1,641 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Arab Rayan — Portfolio BTS SIO</title>
-  <link rel="stylesheet" href="styles.css">
-  <meta name="description" content="Portfolio de Arab Rayan — BTS SIO, cybersécurité, projets, certifications.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Alex Martin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        /* Menu Bar Style (like macOS) */
+        .menu-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(40px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 13px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 20px;
+        }
+
+        .menu-item {
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .menu-item:hover {
+            color: white;
+        }
+
+        /* Main Container */
+        .desktop {
+            padding-top: 40px;
+            min-height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(120, 200, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 120, 200, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(120, 255, 200, 0.2) 0%, transparent 50%);
+        }
+
+        /* Widget Grid Container */
+        .widget-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Widget Base Style */
+        .widget {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(40px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 24px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .widget::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        }
+
+        .widget:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Large Widgets */
+        .widget-large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .widget-medium {
+            grid-row: span 2;
+        }
+
+        /* Hero Widget */
+        .hero-widget {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(78, 205, 196, 0.3));
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .hero-widget h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff, #e3f2fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-widget .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        .hero-widget .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(76, 175, 80, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* About Widget */
+        .about-widget {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .about-text h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .about-text p {
+            opacity: 0.8;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* Skills Widgets */
+        .skill-widget {
+            text-align: center;
+        }
+
+        .skill-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .skill-widget h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .skill-widget p {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            line-height: 1.4;
+        }
+
+        /* Project Widgets */
+        .project-widget {
+            position: relative;
+        }
+
+        .project-widget h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .project-widget p {
+            opacity: 0.8;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-link {
+            color: #64b5f6;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .project-link:hover {
+            color: #90caf9;
+        }
+
+        /* Stats Widget */
+        .stats-widget {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #64b5f6;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Contact Widget */
+        .contact-widget .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 10px;
+            transition: background 0.2s ease;
+        }
+
+        .contact-widget .contact-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .contact-info a {
+            color: inherit;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .contact-info a:hover {
+            color: #64b5f6;
+        }
+
+        /* Weather-like Widget */
+        .weather-widget {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.3), rgba(3, 169, 244, 0.2));
+            text-align: center;
+        }
+
+        .weather-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .weather-temp {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+
+        .weather-desc {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Clock Widget */
+        .clock-widget {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .clock-time {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .clock-date {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .widget-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 16px;
+            }
+
+            .widget-large,
+            .widget-medium {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .hero-widget {
+                min-height: 300px;
+            }
+
+            .menu-bar {
+                display: none;
+            }
+
+            .desktop {
+                padding-top: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="page-bg" id="pageBg"></div>
-
-  <header class="nav" id="siteNav" aria-hidden="false">
-    <div class="nav-inner">
-      <div class="brand">Arab <span class="accent">Rayan</span></div>
-      <nav class="links" id="navLinks" aria-label="Navigation principale">
-        <a href="#home">Accueil</a>
-        <a href="#about">À propos</a>
-        <a href="#skills">Compétences</a>
-        <a href="#projets">Projets</a>
-        <a href="#certifications">Certifications</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <button class="burger" id="burger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
+    <!-- macOS-style Menu Bar -->
+    <div class="menu-bar">
+        <div class="menu-items">
+            <span class="menu-item">Portfolio</span>
+            <span class="menu-item">Fichier</span>
+            <span class="menu-item">Édition</span>
+            <span class="menu-item">Présentation</span>
+            <span class="menu-item">Fenêtre</span>
+            <span class="menu-item">Aide</span>
+        </div>
     </div>
-  </header>
 
-  <main>
-    <!-- HERO -->
-    <section id="home" class="hero section" aria-labelledby="hero-title">
-      <div class="hero-inner">
-        <div class="hero-left">
-          <h1 id="hero-title" class="title">Arab Rayan</h1>
-          <p class="subtitle">Étudiant BTS SIO — Passionné par la cybersécurité & le développement</p>
-          <p class="lead">Actuellement en BTS Services Informatiques aux Organisations au <strong>Lycée Turgot, Paris</strong>. Je réalise des projets orientés sécurité, scripts d'automatisation et petites infra.</p>
-
-          <div class="hero-cta">
-            <a class="btn primary" href="#projets">Voir mes projets</a>
-            <a class="btn ghost" href="#certifications">Mes certifications</a>
-          </div>
-
-          <div class="contact-cards">
-            <a class="card contact-card" href="mailto:arab.rayan@example.com">
-              <svg viewBox="0 0 24 24" class="icon" aria-hidden><path d="M3 8.5v7A2.5 2.5 0 0 0 5.5 18h13a2.5 2.5 0 0 0 2.5-2.5v-7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div>
-                <div class="small">Mail</div>
-                <div class="big">arab.rayan@example.com</div>
-              </div>
-            </a>
-
-            <a class="card contact-card" href="tel:+33600000000">
-              <svg viewBox="0 0 24 24" class="icon" aria-hidden><path d="M22 16.92V21a1 1 0 0 1-1.11 1A19 19 0 0 1 3 5.11 1 1 0 0 1 4 4h4.09a1 1 0 0 1 1 .75 12.72 12.72 0 0 0 .7 2.28 1 1 0 0 1-.24 1L8.91 10.91a16 16 0 0 0 5.18 5.18l1.87-1.63a1 1 0 0 1 1.05-.24 12.72 12.72 0 0 0 2.29.7 1 1 0 0 1 .76 1V21z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div>
-                <div class="small">Tel</div>
-                <div class="big">+33 6 00 00 00 00</div>
-              </div>
-            </a>
-
-            <a class="card contact-card" href="https://www.linkedin.com/in/tonprofil" target="_blank">
-              <svg viewBox="0 0 24 24" class="icon" aria-hidden><path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4v-12h4v2a4 4 0 0 1 4-2zM2 9h4v12H2zM4 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div>
-                <div class="small">LinkedIn</div>
-                <div class="big">/in/tonprofil</div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="hero-right">
-          <div class="glass-card hero-panel">
-            <div class="panel-title">Focus</div>
-            <div class="panel-body">
-              <h3>Cybersécurité & Systèmes</h3>
-              <p class="meta">Audit basique, scripts Python, gestion de petites infrastructures réseau.</p>
-              <div class="badge-row">
-                <span class="pill">BTS SIO</span>
-                <span class="pill">PIX</span>
-                <span class="pill">PRAP</span>
-              </div>
+    <!-- Desktop Container -->
+    <div class="desktop">
+        <div class="widget-container">
+            
+            <!-- Hero Widget -->
+            <div class="widget widget-large hero-widget">
+                <h1>Votre Nom</h1>
+                <p class="subtitle">Développeur Full-Stack & Designer UI/UX</p>
+                <div class="status">
+                    <span class="status-dot"></span>
+                    Disponible pour nouveaux projets
+                </div>
             </div>
-          </div>
 
-          <div class="glass-card stats-panel">
-            <div class="stat">
-              <div class="num">BTS</div>
-              <div class="label">SIO (Lycée Turgot)</div>
+            <!-- Clock Widget -->
+            <div class="widget clock-widget">
+                <div class="clock-time" id="clock">12:34</div>
+                <div class="clock-date" id="date">Mardi 10 Sep</div>
             </div>
-            <div class="stat">
-              <div class="num">Certifs</div>
-              <div class="label">PIX • PRAP • Secouriste</div>
+
+            <!-- Weather Widget -->
+            <div class="widget weather-widget">
+                <div class="weather-icon">🌤️</div>
+                <div class="weather-temp">22°</div>
+                <div class="weather-desc">Votre Ville<br>Créatif et inspiré</div>
             </div>
-            <div class="stat">
-              <div class="num">Ville</div>
-              <div class="label">Paris</div>
+
+            <!-- About Widget -->
+            <div class="widget widget-medium about-widget">
+                <div class="avatar">🚀</div>
+                <div class="about-text">
+                    <h3>Mon Parcours</h3>
+                    <p>Développeur passionné avec 5+ années d'expérience. Je crée des expériences digitales exceptionnelles en combinant design moderne et développement performant. Spécialisé dans React, Node.js et l'UI/UX.</p>
+                </div>
             </div>
-          </div>
+
+            <!-- Skills Widgets -->
+            <div class="widget skill-widget">
+                <div class="skill-icon">💻</div>
+                <h3>Front-end</h3>
+                <p>React, Vue.js, Next.js, TypeScript, Tailwind CSS</p>
+            </div>
+
+            <div class="widget skill-widget">
+                <div class="skill-icon">⚙️</div>
+                <h3>Back-end</h3>
+                <p>Node.js, Express, Python, PostgreSQL, MongoDB</p>
+            </div>
+
+            <div class="widget skill-widget">
+                <div class="skill-icon">🎨</div>
+                <h3>Design</h3>
+                <p>Figma, Adobe XD, Prototypage, Design Systems</p>
+            </div>
+
+            <div class="widget skill-widget">
+                <div class="skill-icon">📱</div>
+                <h3>Mobile</h3>
+                <p>React Native, Flutter, Progressive Web Apps</p>
+            </div>
+
+            <!-- Project Widgets -->
+            <div class="widget widget-medium project-widget">
+                <h3>🛍️ Plateforme E-commerce</h3>
+                <p>Application web complète avec paiements sécurisés, gestion d'inventaire en temps réel et dashboard administrateur avancé. Plus de 10k utilisateurs actifs.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Stripe</span>
+                </div>
+                <a href="#" class="project-link">Découvrir le projet →</a>
+            </div>
+
+            <div class="widget widget-medium project-widget">
+                <h3>🎨 Design System Pro</h3>
+                <p>Système de design complet avec 150+ composants, documentation interactive et guidelines. Utilisé par une équipe de 20+ développeurs.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Figma</span>
+                    <span class="tech-tag">Storybook</span>
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">TypeScript</span>
+                </div>
+                <a href="#" class="project-link">Voir les composants →</a>
+            </div>
+
+            <div class="widget widget-medium project-widget">
+                <h3>📱 App Mobile Wellness</h3>
+                <p>Application de bien-être avec tracking d'habitudes, méditations guidées et communauté. 50k+ téléchargements sur les stores.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">React Native</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">Redux</span>
+                    <span class="tech-tag">Expo</span>
+                </div>
+                <a href="#" class="project-link">Télécharger l'app →</a>
+            </div>
+
+            <!-- Stats Widget -->
+            <div class="widget stats-widget">
+                <div class="stat-item">
+                    <div class="stat-number">85+</div>
+                    <div class="stat-label">Projets réalisés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Années d'expérience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Clients satisfaits</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Taux de satisfaction</div>
+                </div>
+            </div>
+
+            <!-- Contact Widget -->
+            <div class="widget widget-medium contact-widget">
+                <h3 style="margin-bottom: 20px; font-size: 1.3rem;">Travaillons ensemble</h3>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-info">
+                        <a href="mailto:votre.email@example.com">votre.email@example.com</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-info">
+                        <a href="tel:+33123456789">+33 1 23 45 67 89</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💼</div>
+                    <div class="contact-info">
+                        <a href="#" target="_blank">linkedin.com/in/votre-profil</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🐙</div>
+                    <div class="contact-info">
+                        <a href="#" target="_blank">github.com/votre-username</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🌐</div>
+                    <div class="contact-info">
+                        <a href="#" target="_blank">votre-portfolio.com</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="about section">
-      <h2 class="section-title">À propos</h2>
-      <p class="section-sub">Étudiant en BTS SIO — spécialité SLAM / SISR selon tes préférences. Passion pour la sécurité informatique, apprentissage continu et projets concrets.</p>
-
-      <div class="about-grid">
-        <div class="about-card glass-card">
-          <h3>Mon objectif</h3>
-          <p>Devenir ingénieur en cybersécurité ou administrateur systèmes/ réseaux — participer à des projets de sécurisation et d'automatisation.</p>
-        </div>
-        <div class="about-card glass-card">
-          <h3>Outils & Langages</h3>
-          <ul class="tools">
-            <li>Python (scripts, automation)</li>
-            <li>Linux (Ubuntu, Debian)</li>
-            <li>Réseau & Docker</li>
-            <li>Git, SQL, HTML/CSS, JS</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills" class="skills section">
-      <h2 class="section-title">Compétences</h2>
-      <p class="section-sub">Compétences techniques acquises pendant le BTS et projets personnels.</p>
-
-      <div class="skills-grid">
-        <div class="skill glass-card">
-          <h4>Cybersécurité</h4>
-          <p>Audit basique, scans, hardening, bonnes pratiques.</p>
-        </div>
-        <div class="skill glass-card">
-          <h4>Développement</h4>
-          <p>Python, scripts d'automatisation, petites apps web.</p>
-        </div>
-        <div class="skill glass-card">
-          <h4>Administration</h4>
-          <p>Linux, gestion de services, Docker, setup réseau.</p>
-        </div>
-        <div class="skill glass-card">
-          <h4>Outils</h4>
-          <p>Git, VSCode, Wireshark, VirtualBox, Postman.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section id="projets" class="projects section">
-      <h2 class="section-title">Projets</h2>
-      <p class="section-sub">Exemples de projets axés cybersécurité et informatique — maquette et explications.</p>
-
-      <div class="projects-grid">
-        <article class="project glass-card project-tilt" tabindex="0" data-desc="Scan réseau et rapport de vulnérabilités (exercice pédagogique).">
-          <div class="project-media">
-            <!-- cyber svg -->
-            <svg viewBox="0 0 300 180" class="project-svg" aria-hidden>
-              <rect x="6" y="6" width="288" height="168" rx="12" fill="url(#g1)"/>
-              <defs>
-                <linearGradient id="g1" x1="0" x2="1">
-                  <stop offset="0" stop-color="#0b1b2b"/>
-                  <stop offset="1" stop-color="#06344a"/>
-                </linearGradient>
-              </defs>
-              <g fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1">
-                <circle cx="50" cy="50" r="6"/><circle cx="80" cy="70" r="4"/><circle cx="120" cy="40" r="5"/>
-                <path d="M30 120c30-20 80-20 120 0"/>
-              </g>
-            </svg>
-          </div>
-          <div class="project-body">
-            <h3>Network Scan — Mini audit</h3>
-            <p class="meta">Outils: Nmap, reporting • 2024</p>
-          </div>
-        </article>
-
-        <article class="project glass-card project-tilt" tabindex="0" data-desc="Script Python d'automatisation pour déploiement local.">
-          <div class="project-media">
-            <svg viewBox="0 0 300 180" class="project-svg" aria-hidden>
-              <rect x="6" y="6" width="288" height="168" rx="12" fill="url(#g2)"/>
-              <defs>
-                <linearGradient id="g2" x1="0" x2="1">
-                  <stop offset="0" stop-color="#071020"/><stop offset="1" stop-color="#0a2b3f"/>
-                </linearGradient>
-              </defs>
-              <g fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1">
-                <rect x="20" y="30" width="120" height="12" rx="4"/><rect x="20" y="56" width="180" height="10" rx="4"/>
-              </g>
-            </svg>
-          </div>
-          <div class="project-body">
-            <h3>Automation — Déploiement local</h3>
-            <p class="meta">Python, Bash, Docker • 2023</p>
-          </div>
-        </article>
-
-        <article class="project glass-card project-tilt" tabindex="0" data-desc="Prototype d'un mini dashboard de monitoring.">
-          <div class="project-media">
-            <svg viewBox="0 0 300 180" class="project-svg" aria-hidden>
-              <rect x="6" y="6" width="288" height="168" rx="12" fill="url(#g3)"/>
-              <defs>
-                <linearGradient id="g3" x1="0" x2="1">
-                  <stop offset="0" stop-color="#051426"/><stop offset="1" stop-color="#083048"/>
-                </linearGradient>
-              </defs>
-              <g fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1">
-                <circle cx="70" cy="60" r="14"/><rect x="130" y="40" width="120" height="12" rx="6"/>
-              </g>
-            </svg>
-          </div>
-          <div class="project-body">
-            <h3>Monitoring Dashboard — Prototype</h3>
-            <p class="meta">JS / Node / Charts • 2022</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- CERTIFICATIONS -->
-    <section id="certifications" class="certifications section">
-      <h2 class="section-title">Certifications</h2>
-      <p class="section-sub">Certifications obtenues pendant mes études et formations.</p>
-
-      <div class="cert-grid">
-        <div class="cert-card glass-card">
-          <div class="logo">PIX</div>
-          <div class="cert-info">
-            <h3>PIX</h3>
-            <p class="meta">Certification numérique — acquis</p>
-          </div>
-        </div>
-
-        <div class="cert-card glass-card">
-          <div class="logo">PRAP</div>
-          <div class="cert-info">
-            <h3>PRAP</h3>
-            <p class="meta">Prévention des risques — 2023</p>
-          </div>
-        </div>
-
-        <div class="cert-card glass-card">
-          <div class="logo">Secouriste</div>
-          <div class="cert-info">
-            <h3>Diplôme de secouriste</h3>
-            <p class="meta">Formation premiers secours</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- EDUCATION -->
-    <section id="education" class="education section">
-      <h2 class="section-title">Formation</h2>
-      <p class="section-sub">Mon parcours scolaire</p>
-
-      <div class="edu-grid">
-        <div class="edu-card glass-card">
-          <h3>BTS SIO</h3>
-          <p class="meta">Lycée Turgot — Paris</p>
-          <p>Formation en Services Informatiques aux Organisations (SIO). Modules : réseaux, développement, sécurité, gestion de projet.</p>
-        </div>
-
-        <div class="edu-card glass-card">
-          <h3>Lycée</h3>
-          <p class="meta">Lycée Turgot</p>
-          <p>Études secondaires et préparation BTS.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="contact section">
-      <h2 class="section-title">Contact</h2>
-      <p class="section-sub">Contactez-moi via email, téléphone ou LinkedIn — je suis disponible pour stages et missions.</p>
-
-      <div class="contact-cards-vertical">
-        <a class="contact-item glass-card" href="mailto:arab.rayan@example.com">
-          <svg viewBox="0 0 24 24" class="icon-sm" aria-hidden><path d="M3 8.5v7A2.5 2.5 0 0 0 5.5 18h13a2.5 2.5 0 0 0 2.5-2.5v-7" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div><div class="small">Email</div><div class="big">arab.rayan@example.com</div></div>
-        </a>
-
-        <a class="contact-item glass-card" href="tel:+33600000000">
-          <svg viewBox="0 0 24 24" class="icon-sm" aria-hidden><path d="M22 16.92V21a1 1 0 0 1-1.11 1A19 19 0 0 1 3 5.11 1 1 0 0 1 4 4h4.09a1 1 0 0 1 1 .75 12.72 12.72 0 0 0 .7 2.28 1 1 0 0 1-.24 1L8.91 10.91a16 16 0 0 0 5.18 5.18l1.87-1.63a1 1 0 0 1 1.05-.24 12.72 12.72 0 0 0 2.29.7 1 1 0 0 1 .76 1V21z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div><div class="small">Téléphone</div><div class="big">+33 6 00 00 00 00</div></div>
-        </a>
-
-        <a class="contact-item glass-card" href="https://www.linkedin.com/in/tonprofil" target="_blank">
-          <svg viewBox="0 0 24 24" class="icon-sm" aria-hidden><path d="M16 8a6 6 0 0 1 6 6v6h-4v-6a2 2 0 0 0-4 0v6h-4v-12h4v2a4 4 0 0 1 4-2zM2 9h4v12H2zM4 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div><div class="small">LinkedIn</div><div class="big">/in/tonprofil</div></div>
-        </a>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="footer">
-    <div class="glass-card footer-card">
-      <div>© <span id="year"></span> Arab Rayan — BTS SIO — Lycée Turgot</div>
-      <div class="socials">
-        <a href="#" onclick="alert('Remplace par ton lien GitHub')">GitHub</a>
-        <a href="#" onclick="alert('Remplace par ton lien Dribbble')">Dribbble</a>
-      </div>
     </div>
-  </footer>
 
-  <script src="script.js"></script>
+    <script>
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('fr-FR', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+            const date = now.toLocaleDateString('fr-FR', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'short'
+            });
+            
+            document.getElementById('clock').textContent = time;
+            document.getElementById('date').textContent = date.charAt(0).toUpperCase() + date.slice(1);
+        }
+
+        // Update clock every second
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Add hover effects and animations
+        document.querySelectorAll('.widget').forEach(widget => {
+            widget.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+
+            widget.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Smooth entrance animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0) scale(1)';
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe widgets for entrance animation
+        document.querySelectorAll('.widget').forEach(widget => {
+            widget.style.opacity = '0';
+            widget.style.transform = 'translateY(30px) scale(0.95)';
+            widget.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            observer.observe(widget);
+        });
+
+        // Menu bar interactions
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Simple menu interaction
+                this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                setTimeout(() => {
+                    this.style.backgroundColor = 'transparent';
+                }, 150);
+            });
+        });
+    </script>
 </body>
 </html>
