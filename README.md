@@ -1,0 +1,1 @@
+# Portfolio statique — Arab Rayan\n\nVersion statique (HTML/CSS/JS) du portfolio. Dépose ces fichiers dans la racine de ton repo ou dans le dossier `docs/` pour GitHub Pages.
