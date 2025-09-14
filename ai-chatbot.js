@@ -44,6 +44,24 @@ Rules:
         chatBox.scrollTop = chatBox.scrollHeight;
     };
 
+    const handleOfflineMessage = async () => {
+        const userMessage = chatInput.value.trim();
+        if (!userMessage) return;
+
+        sendBtn.disabled = true; // Disable to prevent rapid sending
+        appendMessage(userMessage, 'user-message');
+        chatInput.value = '';
+        aiLoading.classList.remove('hidden'); // Show loading dots
+
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate AI thinking time
+
+        const offlineResponse = "Désolé, l'assistant IA n'est pas actif dans cet environnement statique (comme GitHub Pages). C'est une démo technique qui nécessite un environnement serveur (comme WebSim) pour fonctionner. Pour une démo complète, veuillez me contacter ou tester sur un environnement compatible.";
+        appendMessage(offlineResponse, 'ai-message error');
+        aiLoading.classList.add('hidden'); // Hide loading dots
+        sendBtn.disabled = false; // Re-enable send button
+        chatInput.focus();
+    };
+
     const handleSendMessage = async () => {
         const userMessage = chatInput.value.trim();
         if (!userMessage) return;
@@ -53,14 +71,12 @@ Rules:
         aiLoading.classList.remove('hidden');
         sendBtn.disabled = true;
 
-        // This block for websim check is now only a fallback for in-chat errors.
-        // The initial availability check is handled below at the beginning of initializeAIChatbot.
         if (typeof websim === 'undefined' || !websim.chat || !websim.chat.completions) {
-            // This case should ideally not be reached if the chat input is disabled correctly.
-            // But as a fallback:
+            // This fallback should ideally not be reached if offline handler is correctly set up,
+            // but remains for robustness against unexpected state changes.
             appendMessage("Désolé, l'assistant IA ne peut pas répondre car l'environnement requis n'est pas disponible.", 'ai-message error');
             aiLoading.classList.add('hidden');
-            sendBtn.disabled = false; // Re-enable if for some reason it got enabled
+            sendBtn.disabled = false;
             chatInput.focus();
             return;
         }
@@ -90,15 +106,28 @@ Rules:
         }
     };
 
-    // Initial check for websim availability and setup
+    // Initial setup and check for websim availability
     if (typeof websim === 'undefined' || !websim.chat || !websim.chat.completions) {
-        chatInput.disabled = true;
-        sendBtn.disabled = true;
+        // AI is offline (e.g., on GitHub Pages)
+        chatInput.disabled = false; // Enable input to allow user to type
+        sendBtn.disabled = false; // Enable send button
+
+        // Display a clear initial message about the limitation
         appendMessage(
-            "Bonjour ! Je suis l'assistant IA de Rayan. Veuillez noter : cette fonctionnalité IA est une démonstration technique. Elle nécessite un environnement de serveur spécifique (comme WebSim) et ne peut pas fonctionner sur un site statique hébergé tel que GitHub Pages. Pour une démonstration complète, veuillez utiliser un environnement compatible.",
+            "Bonjour ! Je suis l'assistant IA de Rayan. Veuillez noter : cette fonctionnalité est une démo technique et ne peut pas fonctionner dans cet environnement statique (comme GitHub Pages). Pour une démo complète, veuillez me contacter ou tester sur un environnement compatible.",
             'ai-message error'
         );
+
+        // Attach the offline handler to provide a canned response
+        sendBtn.addEventListener('click', handleOfflineMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleOfflineMessage();
+            }
+        });
+        aiLoading.classList.add('hidden'); // Ensure loading spinner is hidden if AI is offline
     } else {
+        // AI is online (websim environment)
         chatInput.disabled = false;
         sendBtn.disabled = false;
         appendMessage("Bonjour ! Je suis l'assistant IA de Rayan. Posez-moi vos questions sur son parcours, ses compétences ou ses projets.", 'ai-message');

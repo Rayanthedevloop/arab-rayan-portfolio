@@ -46,7 +46,6 @@
 
         <main>
             <section id="hero" class="hero">
-                <div id="particles-js"></div>
                 <div class="container">
                     <h1>Rayan Arab</h1>
                     <p class="subtitle"><span id="typed-subtitle"></span></p>
@@ -147,7 +146,9 @@
                     <p class="section-subtitle">Posez une question sur mes compétences, mon expérience ou mes projets. Mon assistant IA vous répondra.</p>
                     <div class="chat-container card">
                         <div id="chat-box">
-                            <!-- Initial AI message will be dynamically added by ai-chatbot.js -->
+                            <div class="message ai-message">
+                                <p>Bonjour ! Je suis l'assistant IA de Rayan. En quoi puis-je vous aider ?</p>
+                            </div>
                         </div>
                         <div id="chat-input-container">
                             <input type="text" id="chat-input" placeholder="Posez votre question ici...">
