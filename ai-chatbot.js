@@ -34,6 +34,16 @@ Rules:
 - Keep answers short and to the point.
 `;
 
+    const appendMessage = (text, className) => {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', className);
+        const p = document.createElement('p');
+        p.textContent = text;
+        messageDiv.appendChild(p);
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    };
+
     const handleSendMessage = async () => {
         const userMessage = chatInput.value.trim();
         if (!userMessage) return;
@@ -42,6 +52,18 @@ Rules:
         chatInput.value = '';
         aiLoading.classList.remove('hidden');
         sendBtn.disabled = true;
+
+        if (typeof websim === 'undefined' || !websim.chat || !websim.chat.completions) {
+            // Simulate AI response if websim is not available
+            setTimeout(() => {
+                const aiResponse = "Désolé, l'assistant IA nécessite un environnement de développement spécifique ou un serveur backend pour fonctionner (par exemple, dans l'environnement WebSim). Il ne peut pas répondre à votre question actuellement sur ce site statique.";
+                appendMessage(aiResponse, 'ai-message error');
+                aiLoading.classList.add('hidden');
+                sendBtn.disabled = false;
+                chatInput.focus();
+            }, 1500); // Simulate a short delay
+            return;
+        }
 
         try {
             conversationHistory.push({ role: "user", content: userMessage });
@@ -60,7 +82,7 @@ Rules:
 
         } catch (error) {
             console.error("Error with AI completion:", error);
-            appendMessage("Désolé, une erreur est survenue. Veuillez réessayer.", 'ai-message error');
+            appendMessage("Désolé, une erreur est survenue avec l'API de l'IA. Veuillez réessayer.", 'ai-message error');
         } finally {
             aiLoading.classList.add('hidden');
             sendBtn.disabled = false;
@@ -68,20 +90,16 @@ Rules:
         }
     };
 
-    const appendMessage = (text, className) => {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', className);
-        const p = document.createElement('p');
-        p.textContent = text;
-        messageDiv.appendChild(p);
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    };
-
-    sendBtn.addEventListener('click', handleSendMessage);
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            handleSendMessage();
-        }
-    });
+    if (typeof websim === 'undefined' || !websim.chat || !websim.chat.completions) {
+        chatInput.disabled = true;
+        sendBtn.disabled = true;
+        appendMessage(" L'assistant IA est en mode démonstration. Cette fonctionnalité est active uniquement dans un environnement de développement sécurisé ou avec un serveur backend. Elle ne fonctionnera pas sur un site statique comme GitHub Pages.", 'ai-message error');
+    } else {
+        sendBtn.addEventListener('click', handleSendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSendMessage();
+            }
+        });
+    }
 }
