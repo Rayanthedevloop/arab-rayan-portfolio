@@ -53,15 +53,15 @@ Rules:
         aiLoading.classList.remove('hidden');
         sendBtn.disabled = true;
 
+        // This block for websim check is now only a fallback for in-chat errors.
+        // The initial availability check is handled below at the beginning of initializeAIChatbot.
         if (typeof websim === 'undefined' || !websim.chat || !websim.chat.completions) {
-            // Simulate AI response if websim is not available
-            setTimeout(() => {
-                const aiResponse = "Désolé, l'assistant IA nécessite un environnement de développement spécifique ou un serveur backend pour fonctionner (par exemple, dans l'environnement WebSim). Il ne peut pas répondre à votre question actuellement sur ce site statique.";
-                appendMessage(aiResponse, 'ai-message error');
-                aiLoading.classList.add('hidden');
-                sendBtn.disabled = false;
-                chatInput.focus();
-            }, 1500); // Simulate a short delay
+            // This case should ideally not be reached if the chat input is disabled correctly.
+            // But as a fallback:
+            appendMessage("Désolé, l'assistant IA ne peut pas répondre car l'environnement requis n'est pas disponible.", 'ai-message error');
+            aiLoading.classList.add('hidden');
+            sendBtn.disabled = false; // Re-enable if for some reason it got enabled
+            chatInput.focus();
             return;
         }
 
@@ -90,11 +90,18 @@ Rules:
         }
     };
 
+    // Initial check for websim availability and setup
     if (typeof websim === 'undefined' || !websim.chat || !websim.chat.completions) {
         chatInput.disabled = true;
         sendBtn.disabled = true;
-        appendMessage(" L'assistant IA est en mode démonstration. Cette fonctionnalité est active uniquement dans un environnement de développement sécurisé ou avec un serveur backend. Elle ne fonctionnera pas sur un site statique comme GitHub Pages.", 'ai-message error');
+        appendMessage(
+            "Bonjour ! Je suis l'assistant IA de Rayan. Veuillez noter : cette fonctionnalité IA est une démonstration technique. Elle nécessite un environnement de serveur spécifique (comme WebSim) et ne peut pas fonctionner sur un site statique hébergé tel que GitHub Pages. Pour une démonstration complète, veuillez utiliser un environnement compatible.",
+            'ai-message error'
+        );
     } else {
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        appendMessage("Bonjour ! Je suis l'assistant IA de Rayan. Posez-moi vos questions sur son parcours, ses compétences ou ses projets.", 'ai-message');
         sendBtn.addEventListener('click', handleSendMessage);
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {

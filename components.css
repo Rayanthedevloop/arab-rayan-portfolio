@@ -448,6 +448,12 @@
     border-bottom-left-radius: 2px;
 }
 
+.ai-message.error p {
+    background: #442222; /* Darker red background */
+    border-color: #ff5f56; /* Red border */
+    color: #ffcccc; /* Lighter red text */
+}
+
 #chat-input-container {
     display: flex;
     gap: 0.5rem;
