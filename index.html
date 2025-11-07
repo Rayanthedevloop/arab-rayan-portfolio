@@ -120,6 +120,13 @@
             overflow: hidden;
         }
 
+        .logo-icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            filter: brightness(1.2);
+        }
+
         .logo-icon::before {
             content: '';
             position: absolute;
@@ -531,7 +538,7 @@
             font-size: 0.95rem;
         }
 
-        /* Skills */
+        /* Skills - Nouvelle version avec étoiles */
         .skill-category {
             margin-bottom: 40px;
         }
@@ -556,6 +563,7 @@
         .skill-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 10px;
             font-size: 0.95rem;
         }
@@ -564,25 +572,29 @@
             font-weight: 600;
         }
 
-        .skill-level {
+        .skill-stars {
+            display: flex;
+            gap: 4px;
+        }
+
+        .skill-stars i {
+            font-size: 16px;
             color: var(--primary);
-            font-weight: 700;
+            transition: all 0.3s;
         }
 
-        .skill-bar {
-            height: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        .skill-stars i.fa-star {
+            color: var(--primary);
+            filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.5));
         }
 
-        .skill-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+        .skill-stars i.fa-star-half-alt {
+            color: var(--primary);
+            filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.5));
+        }
+
+        .skill-stars i.far {
+            color: rgba(99, 102, 241, 0.3);
         }
 
         /* Projects */
@@ -798,14 +810,23 @@
             transform: translateY(-3px);
         }
 
-        /* Certifications */
+        /* Certifications - Cliquables */
         .cert-card {
             text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .cert-card:hover .cert-icon {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .cert-icon {
             font-size: 3rem;
             margin-bottom: 18px;
+            transition: transform 0.3s;
         }
 
         .cert-status {
@@ -878,6 +899,7 @@
             transition: all 0.3s;
             font-size: 0.9rem;
             font-weight: 600;
+            text-decoration: none;
         }
 
         .veille-btn:hover {
@@ -1037,7 +1059,7 @@
         <div class="logo-section">
             <div class="logo">
                 <div class="logo-icon">
-                    <i class="fas fa-shield-alt"></i>
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADSklEQVR4nO2ZS0hVURSGP0VFJaKHUBFRQUQNIqKBRIOoQYMaREVEgwgaNIiKBhERDSKiQUSDBhENGkREg4iIBhERDSKiQURENIiIBhHRICIaRESDiGj/8B+4HM+5j33OPfde8YMFh3v2Xv+/1t5r7X0NFRUVFRUVFRX/HcAq4DBwFbgHvAK+Al+BV8A94ApwCFgd2sYQAKuBK8Bb4DfgFuQt8AY4D6wIbbeIANYBd4Ff/Jt8B+4Ca0PXJSiATcBjYIb8mAEeAhv8NiwwgPXAC4pjGlgf2o8iAtgKfCZ/vgBbQvtUFABbgc+Ux2dgW2j/SglgOzCF/hFXJbS/RQOwA5hEH5gA6kP7XxQAu4DP6Bs/ge2hfXEFsAd4j/4xDuwN7ZcLgL3AR/w4rQtyFNgLHAfOAbeAx8Bz4BUwBXwDfgI/gPfAG+A5cB84D5wA9ssEI1tKEjYA+4FTkkdkm/0g59sH+rqvp8vUlq7lx8Rj3Tr7I3AYaJYJQ4T/D/YBN4CvEYN7TXzXvYfk2tsj/V6SCV3EfzawRSb0mXjuuxlojOx/k0w8SirbEGnzVObzTjz33SwT+ky8b+AxsCLSfrncR+bxZjz2OyscAPYeGJW+O5Bf5F5NsiHK+VYCp4EH8pvsIo+AG8AxoFnKIg/5CBwF1kr/A5GO3srxdDJcj/BvwDCwPLJvdmBDwF3gF/lzV+pqEuGfsb+X0o3I/tkT6IvYkzceAvMi+3cQuC8T+kh/RPodk88/yJsOGeMLwCJHH/ZL/Q0L3kjdKyL9s2fwUZ7M13giOCJ1N/l4oGk5ETSLf495OhhLBPtFs+/AtoiukZhHakVYxuN2cL+ER6qfFKLwZ9XfpfBn+fQJKC0//UwEP0t4pPpJIQp/Vv1dCn+WTyCl8GcNisKf1T+BQvmzBkXhzxoUhT9rkD4Bv/xZg6LwZ/VPoFD+rEFR+LMGReHPGqRPwC9/1qAo/Fn9EyiUP2tQFP6sQVH4swbpE/DLnzUoCn9W/wQK5c8aFIU/a1AU/qxB+gT88mcNisKf1T+BQvmzBkXhzxoUhT9rkD4Bv/xZpaKioqKioqKCKuQvyMG8TYJ+UZUAAAAASUVORK5CYII=" alt="Logo">
                 </div>
                 <div class="logo-text">Rayan</div>
             </div>
@@ -1205,28 +1227,37 @@
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Analyse vulnérabilités</span>
-                                    <span class="skill-level">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="85"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Pentest & Audit</span>
-                                    <span class="skill-level">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="80"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Sécurisation réseau</span>
-                                    <span class="skill-level">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="85"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1238,28 +1269,37 @@
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">VMware vSphere</span>
-                                    <span class="skill-level">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="85"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Hyper-V</span>
-                                    <span class="skill-level">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="85"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">VirtualBox</span>
-                                    <span class="skill-level">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="90"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1271,28 +1311,37 @@
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Windows Server</span>
-                                    <span class="skill-level">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="90"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Linux Admin</span>
-                                    <span class="skill-level">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="85"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Active Directory</span>
-                                    <span class="skill-level">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="85"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1304,28 +1353,37 @@
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">UX/UI Design</span>
-                                    <span class="skill-level">75%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="75"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">AR/VR Concepts</span>
-                                    <span class="skill-level">70%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="70"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Cloud Computing</span>
-                                    <span class="skill-level">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="80"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1337,28 +1395,37 @@
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Python</span>
-                                    <span class="skill-level">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="80"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">PowerShell</span>
-                                    <span class="skill-level">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="85"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Bash/Shell</span>
-                                    <span class="skill-level">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="80"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1370,28 +1437,37 @@
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">TCP/IP</span>
-                                    <span class="skill-level">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="90"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">VPN & Tunneling</span>
-                                    <span class="skill-level">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="80"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
                                     <span class="skill-name">Pare-feu</span>
-                                    <span class="skill-level">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-fill" data-width="85"></div>
+                                    <div class="skill-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1410,42 +1486,42 @@
                 </div>
 
                 <div class="cards-grid">
-                    <div class="card cert-card reveal">
+                    <a href="https://www.microsoft.com/fr-fr/learning/azure-fundamentals.aspx" target="_blank" class="card cert-card reveal">
                         <div class="card-icon cert-icon"><i class="fab fa-microsoft"></i></div>
                         <h3>Azure Fundamentals</h3>
                         <p>Certification sur les bases des services cloud Microsoft Azure</p>
                         <span class="cert-status status-obtained">Obtenue</span>
-                    </div>
-                    <div class="card cert-card reveal">
+                    </a>
+                    <a href="https://www.cisco.com/c/fr_ca/training-events/training-certifications/certifications/associate/ccna.html" target="_blank" class="card cert-card reveal">
                         <div class="card-icon cert-icon"><i class="fas fa-network-wired"></i></div>
                         <h3>Cisco CCNA</h3>
                         <p>Certification réseau Cisco - Routing and Switching</p>
                         <span class="cert-status status-progress">En cours</span>
-                    </div>
-                    <div class="card cert-card reveal">
+                    </a>
+                    <a href="https://www.comptia.org/certifications/security" target="_blank" class="card cert-card reveal">
                         <div class="card-icon cert-icon"><i class="fas fa-shield-alt"></i></div>
                         <h3>CompTIA Security+</h3>
                         <p>Certification fondamentale en cybersécurité</p>
                         <span class="cert-status status-planned">Prévue 2024</span>
-                    </div>
-                    <div class="card cert-card reveal">
+                    </a>
+                    <a href="https://www.lpi.org/our-certifications/lpic-1-overview" target="_blank" class="card cert-card reveal">
                         <div class="card-icon cert-icon"><i class="fab fa-linux"></i></div>
                         <h3>Linux Professional</h3>
                         <p>LPIC-1 - Administration système Linux</p>
                         <span class="cert-status status-progress">En cours</span>
-                    </div>
-                    <div class="card cert-card reveal">
+                    </a>
+                    <a href="https://www.vmware.com/certification.html" target="_blank" class="card cert-card reveal">
                         <div class="card-icon cert-icon"><i class="fas fa-cube"></i></div>
                         <h3>VMware VCP</h3>
                         <p>VMware Certified Professional - Virtualisation</p>
                         <span class="cert-status status-planned">Prévue 2024</span>
-                    </div>
-                    <div class="card cert-card reveal">
+                    </a>
+                    <a href="https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/" target="_blank" class="card cert-card reveal">
                         <div class="card-icon cert-icon"><i class="fas fa-bug"></i></div>
                         <h3>CEH</h3>
                         <p>Certified Ethical Hacker - Tests d'intrusion</p>
                         <span class="cert-status status-planned">Prévue 2025</span>
-                    </div>
+                    </a>
                 </div>
             </section>
 
@@ -1766,22 +1842,6 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // Skill bars animation
-        const skillObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const fills = entry.target.querySelectorAll('.skill-fill');
-                    fills.forEach(fill => {
-                        const width = fill.getAttribute('data-width');
-                        fill.style.width = width + '%';
-                    });
-                    skillObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.skill-category').forEach(el => skillObserver.observe(el));
 
         // Parallax effect on scroll
         window.addEventListener('scroll', () => {
