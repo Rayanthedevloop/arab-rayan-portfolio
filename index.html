@@ -3,41 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rayan | Portfolio SIO</title>
-    <link rel="icon" type="image/x-icon" href="image.png">
+    <title>Arab Rayan | Portfolio SIO</title>
+    <link rel="icon" type="image/x-icon" href="./pp.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Suppression des CDN Tailwind et Babel en production -->
+    <script>
+        // Désactiver les avertissements de production en console
+        if (typeof window !== 'undefined') {
+            const originalWarn = console.warn;
+            const originalLog = console.log;
+            
+            console.warn = function(...args) {
+                // Ignorer les avertissements Babel et Tailwind
+                const message = args.join(' ');
+                if (
+                    !message.includes('cdn.tailwindcss.com') &&
+                    !message.includes('Babel transformer') &&
+                    !message.includes('source map')
+                ) {
+                    originalWarn.apply(console, args);
+                }
+            };
+            
+            console.log = function(...args) {
+                // Filtrer les logs inutiles
+                const message = args.join(' ');
+                if (
+                    !message.includes('cdn.tailwindcss.com') &&
+                    !message.includes('Babel') &&
+                    !message.includes('source map')
+                ) {
+                    originalLog.apply(console, args);
+                }
+            };
+        }
+    </script>
+
     <style>
+        /* ===== RESET & VARIABLES ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-:root {
-    --primary: #3EE2D0;           /* cyan néon */
-    --secondary: #4C80A6;         /* bleu graffiti froid */
-    --accent: #D04C78;            /* rose vif graffiti */
-    --cyber-green: #00FFB3;       /* vert néon (tu l’avais déjà, parfait pour le style) */
+        :root {
+            --primary: #3b82f6;
+            --primary-rgb: 59,130,246;
+            --secondary: #1e40af;
+            --secondary-rgb: 30,64,175;
+            --accent: #0369a1;
+            --accent-rgb: 3,105,161;
+            --highlight: #60a5fa;
+            --highlight-rgb: 96,165,250;
+            --bg-dark: #0f172a;
+            --sidebar-bg: rgba(15, 23, 42, 0.55);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-strong: rgba(255, 255, 255, 0.05);
+            --text: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.75);
+        }
 
-    --bg-dark: #0B1E2A;           /* bleu nuit profond */
-    --sidebar-bg: rgba(10, 20, 28, 0.4); /* fond sombre bleuté */
-
-    --glass: rgba(255, 255, 255, 0.04);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-strong: rgba(255, 255, 255, 0.07);
-
-    --text: #F2F2F2;              /* blanc légèrement doux */
-    --text-muted: rgba(242, 242, 242, 0.7);
-}
-
-
+        /* ===== BASE STYLES ===== */
         html {
             scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-image: url("test.gif");
+            font-family: "Jost", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background-image: url("background.gif");
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -45,15 +84,19 @@
             overflow-x: hidden;
         }
 
-        /* Background */
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        /* ===== BACKGROUND ===== */
         .bg-container {
-            position: flex;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-image: url("test.jpg");
+            background-image: url("pp.png");
             animation: breathe 8s ease-in-out infinite;
         }
 
@@ -62,7 +105,22 @@
             50% { opacity: 0.8; }
         }
 
-        /* Sidebar - Apple Glass Effect */
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ===== SIDEBAR ===== */
         .sidebar {
             position: fixed;
             left: 0;
@@ -73,22 +131,18 @@
             backdrop-filter: blur(60px) saturate(180%);
             -webkit-backdrop-filter: blur(60px) saturate(180%);
             border-right: 1px solid var(--glass-border);
-            padding: 0;
             z-index: 1000;
             display: flex;
             flex-direction: column;
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
-        /* Logo Section Redesign */
         .logo-section {
             padding: 40px 30px 30px;
             border-bottom: 1px solid var(--glass-border);
             position: relative;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.03));
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.05), rgba(var(--secondary-rgb), 0.03));
         }
 
         .logo-section::before {
@@ -118,9 +172,7 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            box-shadow: 
-                0 8px 20px rgba(99, 102, 241, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.18);
             position: relative;
             overflow: hidden;
         }
@@ -143,19 +195,11 @@
             animation: shine 3s infinite;
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
         .logo-text {
             font-size: 24px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff, var(--primary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--highlight);
         }
 
         .logo-subtitle {
@@ -168,7 +212,7 @@
             opacity: 0.8;
         }
 
-        /* Navigation Menu */
+        /* ===== NAVIGATION ===== */
         .nav-menu {
             flex: 1;
             padding: 25px 15px;
@@ -224,7 +268,7 @@
 
         .nav-link:hover,
         .nav-link.active {
-            background: rgba(99, 102, 241, 0.12);
+            background: rgba(var(--primary-rgb), 0.10);
             color: var(--text);
             transform: translateX(2px);
         }
@@ -240,7 +284,7 @@
             transform: scaleY(1);
         }
 
-        /* Sidebar Footer */
+        /* ===== SIDEBAR FOOTER ===== */
         .sidebar-footer {
             padding: 25px 30px 30px;
             border-top: 1px solid var(--glass-border);
@@ -270,9 +314,9 @@
         }
 
         .tech-icon:hover {
-            background: rgba(6, 182, 212, 0.15);
+            background: rgba(var(--primary-rgb), 0.15);
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.3);
         }
 
         .status {
@@ -280,39 +324,26 @@
             align-items: center;
             gap: 10px;
             padding: 12px 16px;
-            background: rgba(0, 255, 179, 0.08);
+            background: rgba(var(--primary-rgb), 0.08);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 179, 0.2);
+            border: 1px solid rgba(var(--primary-rgb), 0.12);
             border-radius: 10px;
             font-size: 13px;
             font-weight: 700;
-            color: var(--cyber-green);
-            box-shadow: 0 4px 15px rgba(0, 255, 179, 0.2);
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.12);
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--cyber-green);
+            width: 10px;
+            height: 10px;
+            background: var(--secondary);
             border-radius: 50%;
             animation: pulse 2s infinite;
-            box-shadow: 0 0 10px var(--cyber-green);
+            box-shadow: 0 0 12px var(--secondary);
         }
 
-        @keyframes pulse {
-            0%, 100% { 
-                opacity: 1; 
-                box-shadow: 0 0 0 0 rgba(0, 255, 179, 0.7),
-                           0 0 10px var(--cyber-green);
-            }
-            50% { 
-                opacity: 0.8; 
-                box-shadow: 0 0 0 8px rgba(0, 255, 179, 0),
-                           0 0 15px var(--cyber-green);
-            }
-        }
-
-        /* Main */
+        /* ===== MAIN LAYOUT ===== */
         .main {
             margin-left: 320px;
             min-height: 100vh;
@@ -323,7 +354,7 @@
             max-width: 1400px;
         }
 
-        /* Hero */
+        /* ===== HERO ===== */
         .hero {
             min-height: 90vh;
             display: flex;
@@ -333,6 +364,7 @@
 
         .hero-content {
             max-width: 800px;
+            animation: float 6s ease-in-out infinite;
         }
 
         .hero-tag {
@@ -355,10 +387,7 @@
             font-weight: 900;
             line-height: 1.05;
             margin-bottom: 25px;
-            background: linear-gradient(135deg, #fff 0%, var(--primary) 40%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             letter-spacing: -2px;
         }
 
@@ -370,6 +399,7 @@
             font-weight: 400;
         }
 
+        /* ===== BUTTONS ===== */
         .cta-buttons {
             display: flex;
             gap: 15px;
@@ -388,25 +418,24 @@
             gap: 10px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(20px);
+            border: 1px solid transparent;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.32);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
+            box-shadow: 0 15px 40px rgba(var(--primary-rgb), 0.42);
         }
 
         .btn-secondary {
             background: var(--glass);
             color: white;
             border: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
         }
 
         .btn-secondary:hover {
@@ -415,7 +444,7 @@
             box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
         }
 
-        /* Stats */
+        /* ===== STATS ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -436,16 +465,13 @@
         .stat-card:hover {
             background: var(--glass-strong);
             transform: translateY(-6px);
-            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 12px 35px rgba(var(--primary-rgb), 0.28);
         }
 
         .stat-number {
             font-size: 40px;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             display: block;
             margin-bottom: 8px;
         }
@@ -456,7 +482,7 @@
             font-weight: 600;
         }
 
-        /* Section */
+        /* ===== SECTIONS ===== */
         .section {
             padding: 80px 0;
         }
@@ -468,9 +494,9 @@
         .section-tag {
             display: inline-block;
             padding: 8px 18px;
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(var(--primary-rgb), 0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(var(--primary-rgb), 0.2);
             border-radius: 8px;
             font-size: 12px;
             font-weight: 700;
@@ -485,6 +511,7 @@
             font-weight: 900;
             margin-bottom: 15px;
             letter-spacing: -1px;
+            color: var(--text);
         }
 
         .section-description {
@@ -494,7 +521,7 @@
             line-height: 1.7;
         }
 
-        /* Cards */
+        /* ===== CARDS ===== */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -513,9 +540,9 @@
 
         .card:hover {
             background: var(--glass-strong);
-            border-color: rgba(99, 102, 241, 0.3);
+            border-color: rgba(var(--primary-rgb), 0.22);
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 20px 40px rgba(var(--primary-rgb), 0.18);
         }
 
         .card-icon {
@@ -528,13 +555,14 @@
             justify-content: center;
             font-size: 26px;
             margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.32);
         }
 
         .card h3 {
             font-size: 1.4rem;
             margin-bottom: 12px;
             font-weight: 700;
+            color: var(--text);
         }
 
         .card p {
@@ -543,7 +571,7 @@
             font-size: 0.95rem;
         }
 
-        /* Skills - Nouvelle version avec étoiles */
+        /* ===== SKILLS ===== */
         .skill-category {
             margin-bottom: 40px;
         }
@@ -555,6 +583,7 @@
             margin-bottom: 22px;
             font-size: 1.4rem;
             font-weight: 700;
+            color: var(--text);
         }
 
         .skill-category h3 i {
@@ -575,6 +604,7 @@
 
         .skill-name {
             font-weight: 600;
+            color: var(--text);
         }
 
         .skill-stars {
@@ -582,27 +612,16 @@
             gap: 4px;
         }
 
-        .skill-stars i {
-            font-size: 16px;
+        .skill-stars i.fas {
             color: var(--primary);
-            transition: all 0.3s;
-        }
-
-        .skill-stars i.fa-star {
-            color: var(--primary);
-            filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.5));
-        }
-
-        .skill-stars i.fa-star-half-alt {
-            color: var(--primary);
-            filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.5));
+            filter: drop-shadow(0 0 4px rgba(var(--primary-rgb), 0.32));
         }
 
         .skill-stars i.far {
-            color: rgba(99, 102, 241, 0.3);
+            color: rgba(var(--primary-rgb), 0.3);
         }
 
-        /* Projects */
+        /* ===== PROJECTS ===== */
         .project-card {
             background: var(--glass);
             backdrop-filter: blur(30px);
@@ -614,9 +633,9 @@
         }
 
         .project-card:hover {
-            border-color: rgba(99, 102, 241, 0.3);
+            border-color: rgba(var(--primary-rgb), 0.22);
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 20px 40px rgba(var(--primary-rgb), 0.18);
         }
 
         .project-header {
@@ -624,6 +643,7 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             position: relative;
             overflow: hidden;
+            color: white;
         }
 
         .project-header::before {
@@ -671,9 +691,9 @@
 
         .tag {
             padding: 8px 14px;
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(var(--primary-rgb), 0.08);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(var(--primary-rgb), 0.14);
             border-radius: 8px;
             font-size: 0.8rem;
             font-weight: 700;
@@ -682,11 +702,11 @@
         }
 
         .tag:hover {
-            background: rgba(99, 102, 241, 0.2);
+            background: rgba(var(--primary-rgb), 0.14);
             transform: translateY(-2px);
         }
 
-        /* Timeline */
+        /* ===== TIMELINE ===== */
         .timeline {
             position: relative;
             padding-left: 50px;
@@ -717,7 +737,7 @@
             background: var(--primary);
             border-radius: 50%;
             border: 3px solid var(--bg-dark);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+            box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.38);
         }
 
         .timeline-card {
@@ -733,7 +753,7 @@
         .timeline-card:hover {
             background: var(--glass-strong);
             transform: translateX(10px);
-            box-shadow: 0 10px 35px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 10px 35px rgba(var(--primary-rgb), 0.2);
         }
 
         .timeline-date {
@@ -747,10 +767,11 @@
             font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 6px;
+            color: var(--text);
         }
 
         .timeline-company {
-            color: var(--accent);
+            color: var(--highlight);
             font-weight: 600;
             margin-bottom: 15px;
         }
@@ -761,7 +782,7 @@
             font-size: 0.95rem;
         }
 
-        /* Separator */
+        /* ===== SEPARATOR ===== */
         .separator {
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
@@ -779,10 +800,10 @@
             height: 8px;
             background: var(--primary);
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.8);
+            box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.48);
         }
 
-        /* Mobile Nav */
+        /* ===== MOBILE NAV ===== */
         .mobile-nav {
             display: none;
             position: fixed;
@@ -807,6 +828,7 @@
             color: var(--text-muted);
             font-size: 22px;
             transition: all 0.3s;
+            text-decoration: none;
         }
 
         .mobile-nav-link:hover,
@@ -815,54 +837,293 @@
             transform: translateY(-3px);
         }
 
-        /* Certifications - Cliquables */
-        .cert-card {
-            text-align: center;
+        /* ===== CERTIFICATIONS ===== */
+        .cert-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .cert-modal.active {
+            display: flex;
+        }
+
+        .cert-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cert-modal-image {
+            max-width: 80vw;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+            cursor: zoom-in;
+        }
+
+        .cert-modal-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(var(--primary-rgb), 0.15);
+            padding: 12px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(var(--primary-rgb), 0.25);
+        }
+
+        .cert-zoom-btn {
+            background: rgba(var(--primary-rgb), 0.25);
+            border: 1px solid rgba(var(--primary-rgb), 0.4);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
             cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
         }
 
-        .cert-card:hover .cert-icon {
-            transform: scale(1.1) rotate(5deg);
+        .cert-zoom-btn:hover {
+            background: rgba(var(--primary-rgb), 0.35);
+            transform: scale(1.05);
         }
 
-        .cert-icon {
-            font-size: 3rem;
-            margin-bottom: 18px;
+        .cert-zoom-level {
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .cert-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(var(--accent-rgb), 0.8);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.4);
+        }
+
+        .cert-close-btn:hover {
+            background: rgba(var(--accent-rgb), 1);
+            transform: scale(1.1);
+        }
+
+        .cert-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+        }
+
+        .cert-image-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            aspect-ratio: 3/4;
+        }
+
+        .cert-image-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(var(--primary-rgb), 0.28);
+            border-color: rgba(var(--primary-rgb), 0.22);
+        }
+
+        .cert-image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             transition: transform 0.3s;
         }
 
-        .cert-status {
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-top: 15px;
-            display: inline-block;
+        .cert-image-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .cert-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.3), rgba(var(--secondary-rgb), 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .cert-image-card:hover .cert-image-overlay {
+            opacity: 1;
+        }
+
+        .cert-zoom-icon {
+            font-size: 32px;
+            color: white;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        /* ===== SYNTHESE IMAGE DISPLAY ===== */
+        .synthese-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.3), rgba(var(--secondary-rgb), 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .synthese-image-card img:hover ~ .synthese-image-overlay,
+        .synthese-image-overlay:hover {
+            opacity: 1;
+        }
+
+        .synthese-zoom-icon {
+            font-size: 32px;
+            color: white;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        /* ===== SYNTHESE MODAL ===== */
+        .synthese-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .synthese-modal.active {
+            display: flex;
+        }
+
+        .synthese-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .synthese-modal-image {
+            max-width: 80vw;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+            cursor: zoom-in;
+        }
+
+        .synthese-modal-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: rgba(var(--primary-rgb), 0.15);
+            padding: 12px 20px;
+            border-radius: 10px;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(var(--primary-rgb), 0.25);
         }
 
-        .status-obtained {
-            background: rgba(0, 255, 179, 0.2);
-            color: var(--cyber-green);
-            border: 1px solid rgba(0, 255, 179, 0.3);
+        .synthese-zoom-btn {
+            background: rgba(var(--primary-rgb), 0.25);
+            border: 1px solid rgba(var(--primary-rgb), 0.4);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
         }
 
-        .status-progress {
-            background: rgba(6, 182, 212, 0.2);
-            color: var(--accent);
-            border: 1px solid rgba(6, 182, 212, 0.3);
+        .synthese-zoom-btn:hover {
+            background: rgba(var(--primary-rgb), 0.35);
+            transform: scale(1.05);
         }
 
-        .status-planned {
-            background: rgba(139, 92, 246, 0.2);
-            color: var(--secondary);
-            border: 1px solid rgba(139, 92, 246, 0.3);
+        .synthese-zoom-level {
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
         }
 
-        /* Veille */
+        .synthese-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(var(--accent-rgb), 0.8);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.4);
+        }
+
+        .synthese-close-btn:hover {
+            background: rgba(var(--accent-rgb), 1);
+            transform: scale(1.1);
+        }
+
+        /* ===== VEILLE ===== */
         .veille-container {
             background: var(--glass);
             backdrop-filter: blur(30px);
@@ -886,6 +1147,7 @@
             gap: 12px;
             font-size: 1.3rem;
             font-weight: 700;
+            color: white;
         }
 
         .veille-controls {
@@ -905,6 +1167,9 @@
             font-size: 0.9rem;
             font-weight: 600;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .veille-btn:hover {
@@ -914,6 +1179,7 @@
 
         .iframe-container {
             position: relative;
+            width: 100%;
             height: 600px;
             background: var(--bg-dark);
         }
@@ -924,7 +1190,7 @@
             border: none;
         }
 
-        /* Contact */
+        /* ===== CONTACT ===== */
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -933,7 +1199,7 @@
 
         .contact-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 18px;
             padding: 28px;
             background: var(--glass);
@@ -947,23 +1213,27 @@
         .contact-item:hover {
             background: var(--glass-strong);
             transform: translateY(-6px);
-            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.25);
+            box-shadow: 0 12px 35px rgba(var(--primary-rgb), 0.25);
+            border-color: rgba(var(--primary-rgb), 0.22);
         }
 
         .contact-icon {
             font-size: 2rem;
             color: var(--primary);
             transition: transform 0.3s;
+            flex-shrink: 0;
+            margin-top: 4px;
         }
 
         .contact-item:hover .contact-icon {
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
 
         .contact-item h3 {
             font-size: 1.1rem;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-weight: 700;
+            color: var(--text);
         }
 
         .contact-item p {
@@ -973,17 +1243,195 @@
         }
 
         .contact-item a {
-            color: var(--accent);
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
         }
 
         .contact-item a:hover {
-            color: var(--primary);
+            color: var(--highlight);
         }
 
-        /* Responsive */
+        /* ===== TABLEAU DE SYNTHÈSE ===== */
+        .synthese-container {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 40px;
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .synthese-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+            align-items: center;
+        }
+
+        .synthese-image-card {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.25);
+            aspect-ratio: 4/3;
+            position: relative;
+        }
+
+        .synthese-image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .synthese-image-card img:hover {
+            transform: scale(1.05);
+        }
+
+        .synthese-content h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        .synthese-content p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .synthese-section {
+            margin-bottom: 40px;
+        }
+
+        .synthese-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--text);
+        }
+
+        .synthese-section h3 i {
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .synthese-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .synthese-item {
+            display: flex;
+            gap: 18px;
+            padding: 20px;
+            background: rgba(var(--primary-rgb), 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(var(--primary-rgb), 0.1);
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .synthese-item:hover {
+            background: rgba(var(--primary-rgb), 0.1);
+            transform: translateX(5px);
+            border-color: rgba(var(--primary-rgb), 0.2);
+        }
+
+        .synthese-dot {
+            width: 14px;
+            height: 14px;
+            background: var(--primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 4px;
+            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.4);
+        }
+
+        .synthese-item-content h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .synthese-date {
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .synthese-item-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .source-card {
+            padding: 24px;
+            background: rgba(var(--primary-rgb), 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(var(--primary-rgb), 0.14);
+            border-radius: 14px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .source-card:hover {
+            background: rgba(var(--primary-rgb), 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.2);
+            border-color: rgba(var(--primary-rgb), 0.22);
+        }
+
+        .source-card i {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .source-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .source-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* ===== REVEAL ANIMATION ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -1004,11 +1452,24 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .iframe-container {
+                height: 400px;
+            }
+
+            .synthese-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sources-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 640px) {
             .stats-grid,
-            .cards-grid {
+            .cards-grid,
+            .contact-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1031,28 +1492,34 @@
             .sidebar {
                 width: 280px;
             }
-        }
 
-        /* Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+            .iframe-container {
+                height: 300px;
+            }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+            .veille-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
 
-        /* Floating Animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
+            .veille-controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
 
-        .hero-content {
-            animation: float 6s ease-in-out infinite;
+            .synthese-container {
+                padding: 25px;
+            }
+
+            .synthese-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .sources-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -1064,7 +1531,7 @@
         <div class="logo-section">
             <div class="logo">
                 <div class="logo-icon">
-                    <img src="image.png" alt="Logo">
+                    <img src="./pp.png" alt="Logo">
                 </div>
                 <div class="logo-text">Rayan</div>
             </div>
@@ -1100,6 +1567,10 @@
                 <i class="fas fa-rss"></i>
                 <span>Veille</span>
             </a>
+            <a href="#tableau-synthese" class="nav-link">
+                <i class="fas fa-table"></i>
+                <span>Tableau Synthèse</span>
+            </a>
             <a href="#experience" class="nav-link">
                 <i class="fas fa-briefcase"></i>
                 <span>Expérience</span>
@@ -1115,13 +1586,13 @@
                 <div class="tech-icon">HTML/CSS/JS</div>
                 <div class="tech-icon">Réseau</div>
                 <div class="tech-icon">PHP/SQL</div>
-                <div class="tech-icon">Cloud/Nas</div>
+                <div class="tech-icon">Design UX/UI </div>
                 <div class="tech-icon">Virtualisation</div>
                 <div class="tech-icon">Cybersecurity</div>
             </div>
             <div class="status">
-                <div class="status-dot"></div>
-                <span>Disponible</span>
+                <div class="status-dot" aria-hidden="true"></div>
+                <span>Disponible pour un stage</span>
             </div>
         </div>
     </aside>
@@ -1133,6 +1604,7 @@
             <a href="#about" class="mobile-nav-link"><i class="fas fa-user"></i></a>
             <a href="#skills" class="mobile-nav-link"><i class="fas fa-code"></i></a>
             <a href="#projects" class="mobile-nav-link"><i class="fas fa-folder"></i></a>
+            <a href="#tableau-synthese" class="mobile-nav-link"><i class="fas fa-table"></i></a>
             <a href="#contact" class="mobile-nav-link"><i class="fas fa-envelope"></i></a>
         </div>
     </div>
@@ -1145,10 +1617,10 @@
                 <div class="hero-content">
                     <div class="hero-tag reveal">
                         <i class="fas fa-graduation-cap"></i>
-                        <span>Étudiant BTS SIO SISR</span>
+                        <span>Étudiante BTS SIO SISR</span>
                     </div>
                     <h1 class="hero-title reveal">Portfolio Arab Rayan</h1>
-                    <p class="hero-subtitle reveal">Spécialisé en administration système, sécurité informatique, virtualisation. Passionné par la cyber-défense et l'innovation technologique.</p>
+                    <p class="hero-subtitle reveal">Étudiant passionné par la cybersécurité, l'administration système et les technologies émergentes. Spécialisé en cyber-défense et virtualisation.</p>
                     
                     <div class="cta-buttons reveal">
                         <a href="#projects" class="btn btn-primary">
@@ -1175,7 +1647,7 @@
                             <span class="stat-label">Projets</span>
                         </div>
                         <div class="stat-card reveal">
-                            <span class="stat-number">3</span>
+                            <span class="stat-number">2</span>
                             <span class="stat-label">Stages</span>
                         </div>
                         <div class="stat-card reveal">
@@ -1193,14 +1665,14 @@
                 <div class="section-header reveal">
                     <div class="section-tag">À propos</div>
                     <h2 class="section-title">Qui suis-je ?</h2>
-                    <p class="section-description">Étudiant passionné par la cybersécurité, l'administration système et les technologies émergentes</p>
+                    <p class="section-description">Étudiant passionné par la cybersécurité, l'administration système et les technologies émergentes.</p>
                 </div>
 
                 <div class="cards-grid">
                     <div class="card reveal">
                         <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
                         <h3>Formation</h3>
-                        <p>BTS SIO option SISR, spécialisé en administration système, cybersécurité, virtualisation et cyber-défense.</p>
+                        <p>BTS SIO option SISR, spécialisée en administration système, infrastructure, et virtualisation.</p>
                     </div>
                     <div class="card reveal">
                         <div class="card-icon"><i class="fas fa-bullseye"></i></div>
@@ -1209,7 +1681,7 @@
                     </div>
                     <div class="card reveal">
                         <div class="card-icon"><i class="fas fa-vr-cardboard"></i></div>
-                        <h3>Innovation</h3>
+                        <h3>Centres d'intérêt</h3>
                         <p>Passionné par les technologies immersives (AR/VR), l'UX/UI design et les solutions de virtualisation avancées.</p>
                     </div>
                 </div>
@@ -1222,16 +1694,16 @@
                 <div class="section-header reveal">
                     <div class="section-tag">Compétences</div>
                     <h2 class="section-title">Expertises Techniques</h2>
-                    <p class="section-description">Technologies maîtrisées en cybersécurité, virtualisation et infrastructure</p>
+                    <p class="section-description">Technologies maîtrisées en administration système, infrastructure, et virtualisation</p>
                 </div>
 
                 <div class="cards-grid">
                     <div class="card reveal">
                         <div class="skill-category">
-                            <h3><i class="fas fa-shield-alt"></i> Cybersécurité</h3>
+                            <h3><i class="fas fa-shield-alt"></i> Administration Système</h3>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">Analyse vulnérabilités</span>
+                                    <span class="skill-name">Configurer un réseau</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1243,7 +1715,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">Pentest & Audit</span>
+                                    <span class="skill-name">Sécuriser des systèmes</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1255,7 +1727,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">Sécurisation réseau</span>
+                                    <span class="skill-name">Mise en place d'OS</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1270,10 +1742,10 @@
 
                     <div class="card reveal">
                         <div class="skill-category">
-                            <h3><i class="fas fa-cube"></i> Virtualisation</h3>
+                            <h3><i class="fas fa-cube"></i> Infrastructure</h3>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">VMware vSphere</span>
+                                    <span class="skill-name">Application du protocole</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1285,7 +1757,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">Hyper-V</span>
+                                    <span class="skill-name">Optimisation des systèmes informatiques</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1297,7 +1769,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">VirtualBox</span>
+                                    <span class="skill-name">Installation du matériel informatique</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1312,10 +1784,10 @@
 
                     <div class="card reveal">
                         <div class="skill-category">
-                            <h3><i class="fas fa-server"></i> Administration</h3>
+                            <h3><i class="fas fa-server"></i> Virtualisation</h3>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">Windows Server</span>
+                                    <span class="skill-name">VirtualBox</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1339,7 +1811,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">Active Directory</span>
+                                    <span class="skill-name">Windows Server</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1369,7 +1841,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">AR/VR Concepts</span>
+                                    <span class="skill-name">Unreal Engine 5</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1381,7 +1853,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">Cloud Computing</span>
+                                    <span class="skill-name">Robotique/Domotique</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1411,7 +1883,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">PowerShell</span>
+                                    <span class="skill-name">PHP/SQL</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1423,7 +1895,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">Bash/Shell</span>
+                                    <span class="skill-name">HTML/CSS/JS</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1441,7 +1913,7 @@
                             <h3><i class="fas fa-network-wired"></i> Réseaux</h3>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">TCP/IP</span>
+                                    <span class="skill-name">A venir...</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1453,7 +1925,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">VPN & Tunneling</span>
+                                    <span class="skill-name">A venir...</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1465,7 +1937,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="skill-header">
-                                    <span class="skill-name">Pare-feu</span>
+                                    <span class="skill-name">A venir...</span>
                                     <div class="skill-stars">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -1490,43 +1962,43 @@
                     <p class="section-description">Certifications obtenues et en cours de préparation</p>
                 </div>
 
-                <div class="cards-grid">
-                    <a href="https://www.microsoft.com/fr-fr/learning/azure-fundamentals.aspx" target="_blank" class="card cert-card reveal">
-                        <div class="card-icon cert-icon"><i class="fab fa-microsoft"></i></div>
-                        <h3>Azure Fundamentals</h3>
-                        <p>Certification sur les bases des services cloud Microsoft Azure</p>
-                        <span class="cert-status status-obtained">Obtenue</span>
-                    </a>
-                    <a href="https://www.cisco.com/c/fr_ca/training-events/training-certifications/certifications/associate/ccna.html" target="_blank" class="card cert-card reveal">
-                        <div class="card-icon cert-icon"><i class="fas fa-network-wired"></i></div>
-                        <h3>Cisco CCNA</h3>
-                        <p>Certification réseau Cisco - Routing and Switching</p>
-                        <span class="cert-status status-progress">En cours</span>
-                    </a>
-                    <a href="https://www.comptia.org/certifications/security" target="_blank" class="card cert-card reveal">
-                        <div class="card-icon cert-icon"><i class="fas fa-shield-alt"></i></div>
-                        <h3>CompTIA Security+</h3>
-                        <p>Certification fondamentale en cybersécurité</p>
-                        <span class="cert-status status-planned">Prévue 2024</span>
-                    </a>
-                    <a href="https://www.lpi.org/our-certifications/lpic-1-overview" target="_blank" class="card cert-card reveal">
-                        <div class="card-icon cert-icon"><i class="fab fa-linux"></i></div>
-                        <h3>Linux Professional</h3>
-                        <p>LPIC-1 - Administration système Linux</p>
-                        <span class="cert-status status-progress">En cours</span>
-                    </a>
-                    <a href="https://www.vmware.com/certification.html" target="_blank" class="card cert-card reveal">
-                        <div class="card-icon cert-icon"><i class="fas fa-cube"></i></div>
-                        <h3>VMware VCP</h3>
-                        <p>VMware Certified Professional - Virtualisation</p>
-                        <span class="cert-status status-planned">Prévue 2024</span>
-                    </a>
-                    <a href="https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/" target="_blank" class="card cert-card reveal">
-                        <div class="card-icon cert-icon"><i class="fas fa-bug"></i></div>
-                        <h3>CEH</h3>
-                        <p>Certified Ethical Hacker - Tests d'intrusion</p>
-                        <span class="cert-status status-planned">Prévue 2025</span>
-                    </a>
+                <div class="cert-gallery">
+                    <div class="cert-image-card reveal">
+                        <img src="./ebios.jpg" alt="EBIOS" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%23d87a2d%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2224%22 font-weight=%22bold%22%3EEBIOS%3C/text%3E%3C/svg%3E'">
+                        <div class="cert-image-overlay">
+                            <i class="fas fa-search-plus cert-zoom-icon"></i>
+                        </div>
+                    </div>
+                    <div class="cert-image-card reveal">
+                        <img src="./cisco.jpg" alt="Packet Tracer" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%237a4b2b%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2220%22 font-weight=%22bold%22%3ECisco Packet Tracer%3C/text%3E%3C/svg%3E'">
+                        <div class="cert-image-overlay">
+                            <i class="fas fa-search-plus cert-zoom-icon"></i>
+                        </div>
+                    </div>
+                    <div class="cert-image-card reveal">
+                        <img src="./security-plus.jpg" alt="CompTIA Security+" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%23b34a3a%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2218%22 font-weight=%22bold%22%3ESecurity%2B%3C/text%3E%3C/svg%3E'">
+                        <div class="cert-image-overlay">
+                            <i class="fas fa-search-plus cert-zoom-icon"></i>
+                        </div>
+                    </div>
+                    <div class="cert-image-card reveal">
+                        <img src="./lpic-1.jpg" alt="Linux Professional" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%23ffb86b%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a0f0b%22 font-size=%2220%22 font-weight=%22bold%22%3ELPIC-1%3C/text%3E%3C/svg%3E'">
+                        <div class="cert-image-overlay">
+                            <i class="fas fa-search-plus cert-zoom-icon"></i>
+                        </div>
+                    </div>
+                    <div class="cert-image-card reveal">
+                        <img src="./vmware-vcp.jpg" alt="VMware VCP" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%2207b344%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2220%22 font-weight=%22bold%22%3EVMware VCP%3C/text%3E%3C/svg%3E'">
+                        <div class="cert-image-overlay">
+                            <i class="fas fa-search-plus cert-zoom-icon"></i>
+                        </div>
+                    </div>
+                    <div class="cert-image-card reveal">
+                        <img src="./ceh-certified.jpg" alt="Certified Ethical Hacker" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%23ec1c24%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2218%22 font-weight=%22bold%22%3ECEH%3C/text%3E%3C/svg%3E'">
+                        <div class="cert-image-overlay">
+                            <i class="fas fa-search-plus cert-zoom-icon"></i>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -1543,106 +2015,36 @@
                 <div class="cards-grid">
                     <div class="project-card reveal">
                         <div class="project-header">
-                            <h3>Infrastructure Sécurisée PME</h3>
-                            <div class="project-type">Projet infrastructure</div>
+                            <h3>RNPA</h3>
+                            <div class="project-type">Projet Dev et Réseaux</div>
                         </div>
                         <div class="project-content">
-                            <p class="project-description">Conception et déploiement d'une infrastructure réseau complète avec pare-feu, VPN, monitoring temps réel et sauvegarde automatisée.</p>
+                            <p class="project-description">Développement d'un site internet automatisée informant sur les sorties et les promos des jeux gratuits venant de toutes plateformes.</p>
                             <div class="project-tags">
-                                <span class="tag">pfSense</span>
-                                <span class="tag">OpenVPN</span>
-                                <span class="tag">PRTG</span>
-                                <span class="tag">Veeam</span>
-                                <span class="tag">VLAN</span>
+                                <span class="tag">HTML/CSS/JS</span>
+                                <span class="tag">Hébergement</span>
+                                <span class="tag">UX/UI</span>
+                                <span class="tag">Bot</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="project-card reveal">
                         <div class="project-header">
-                            <h3>Lab Pentesting</h3>
-                            <div class="project-type">Projet cybersécurité</div>
+                            <h3>Projet Jeux Vidéos ingénieurs</h3>
+                            <div class="project-type">Projet Design UX/UI et Outil 3D</div>
                         </div>
                         <div class="project-content">
-                            <p class="project-description">Environnement de test sécurisé pour l'apprentissage du pentesting avec machines vulnérables et scénarios d'attaque réalistes.</p>
+                            <p class="project-description">Développement d'un jeu vidéo avec une équipe d'ingénieurs et de game designer.</p>
                             <div class="project-tags">
-                                <span class="tag">Kali Linux</span>
-                                <span class="tag">Metasploit</span>
-                                <span class="tag">Burp Suite</span>
-                                <span class="tag">DVWA</span>
-                                <span class="tag">VirtualBox</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card reveal">
-                        <div class="project-header">
-                            <h3>Solution Monitoring</h3>
-                            <div class="project-type">Projet supervision</div>
-                        </div>
-                        <div class="project-content">
-                            <p class="project-description">Plateforme de supervision réseau avec dashboards interactifs, alertes automatiques et métriques de performance temps réel.</p>
-                            <div class="project-tags">
-                                <span class="tag">Nagios</span>
-                                <span class="tag">Grafana</span>
-                                <span class="tag">InfluxDB</span>
-                                <span class="tag">SNMP</span>
-                                <span class="tag">Prometheus</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card reveal">
-                        <div class="project-header">
-                            <h3>Cloud Hybride Azure</h3>
-                            <div class="project-type">Projet cloud</div>
-                        </div>
-                        <div class="project-content">
-                            <p class="project-description">Infrastructure cloud hybride combinant serveurs physiques et services Azure pour optimiser performances et coûts.</p>
-                            <div class="project-tags">
-                                <span class="tag">Azure</span>
-                                <span class="tag">Hyper-V</span>
-                                <span class="tag">PowerShell</span>
-                                <span class="tag">ARM</span>
-                                <span class="tag">VPN S2S</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card reveal">
-                        <div class="project-header">
-                            <h3>Environnement VR Training</h3>
-                            <div class="project-type">Projet innovation</div>
-                        </div>
-                        <div class="project-content">
-                            <p class="project-description">Prototype d'environnement de formation en réalité virtuelle pour l'apprentissage des procédures de sécurité informatique.</p>
-                            <div class="project-tags">
-                                <span class="tag">Unity</span>
-                                <span class="tag">VR</span>
-                                <span class="tag">C#</span>
-                                <span class="tag">UX Design</span>
+                                <span class="tag">Unreal Engine</span>
                                 <span class="tag">3D</span>
+                                <span class="tag">UI/UX Design</span>
+                                <span class="tag">Conception</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="project-card reveal">
-                        <div class="project-header">
-                            <h3>Audit Sécurité Réseau</h3>
-                            <div class="project-type">Projet audit</div>
-                        </div>
-                        <div class="project-content">
-                            <p class="project-description">Audit de sécurité complet avec scan de vulnérabilités, tests d'intrusion et plan de remédiation détaillé.</p>
-                            <div class="project-tags">
-                                <span class="tag">OpenVAS</span>
-                                <span class="tag">Nessus</span>
-                                <span class="tag">Wireshark</span>
-                                <span class="tag">Nikto</span>
-                                <span class="tag">OWASP</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </section>
 
             <div class="separator"></div>
@@ -1652,7 +2054,7 @@
                 <div class="section-header reveal">
                     <div class="section-tag">Parcours</div>
                     <h2 class="section-title">Mon Parcours de Formation</h2>
-                    <p class="section-description">De la découverte des systèmes numériques à la spécialisation en cybersécurité</p>
+                    <p class="section-description"></p>
                 </div>
 
                 <div class="timeline">
@@ -1673,7 +2075,7 @@
                             <div class="timeline-title">Baccalauréat Professionnel Systèmes Numériques</div>
                             <div class="timeline-company">Option Réseaux Informatiques et Systèmes Communicants</div>
                             <div class="timeline-description">
-                                Formation professionnelle orientée réseaux informatiques et systèmes de communication. Première approche des technologies réseau, électronique numérique et systèmes embarqués. Compétences en installation/configuration d'équipements réseau et câblage.
+                                Formation spécialisée en technologies réseau, électronique numérique, systèmes embarqués et installation/configuration d'équipements réseau. Compétences en câblage et administration système.
                             </div>
                         </div>
                     </div>
@@ -1687,7 +2089,7 @@
                 <div class="section-header reveal">
                     <div class="section-tag">Veille</div>
                     <h2 class="section-title">Ma Veille Informatique</h2>
-                    <p class="section-description">Site dédié à la veille technologique et sécurité</p>
+                    <p class="section-description">Site dédié à la veille technologique</p>
                 </div>
 
                 <div class="veille-container reveal">
@@ -1714,6 +2116,53 @@
 
             <div class="separator"></div>
 
+            <!-- Tableau de Synthèse -->
+            <section id="tableau-synthese" class="section">
+                <div class="section-header reveal">
+                    <div class="section-tag">Synthèse</div>
+                    <h2 class="section-title">Tableau de Synthèse</h2>
+                    <p class="section-description">Événements, veille informatique et sources d'information clés</p>
+                </div>
+
+                <div class="synthese-container reveal">
+                    <div class="synthese-grid">
+                        <div class="synthese-image-card" id="syntheseImageCard">
+                            <img src="Tableau de synthèse.jpg" alt="Tableau de Synthèse" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 400%22%3E%3Crect fill=%22%23d87a2d%22 width=%22600%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2240%22 font-weight=%22bold%22%3ETableau de Synthèse%3C/text%3E%3C/svg%3E'">\n                            <div class="synthese-image-overlay">\n                                <i class="fas fa-search-plus synthese-zoom-icon"></i>\n                            </div>
+                        </div>
+                        <div class="synthese-content">
+                            <h3>Description</h3>
+                            <p>Mon tableau de synthèse regroupe les informations essentielles de ma veille informatique, les événements clés auxquels j'ai participé et les sources d'information que je suis régulièrement. Cet outil me permet de consolider les connaissances acquises et de rester informée sur les dernières tendances technologiques.</p>
+                        </div>
+                    </div>
+
+                    <div class="synthese-section reveal">
+                        <h3><i class="fas fa-calendar-alt"></i> Événements</h3>
+                        <div class="synthese-items">
+                            <div class="synthese-item">
+                                <div class="synthese-dot"></div>
+                                <div class="synthese-item-content">
+                                    <h4>Salon Open Source Experience</h4>
+                                    <p class="synthese-date">Décembre 2025</p>
+                                    <p>Rencontre de professionnel et échange dans le domaine du réseau de la sécurité du développement infrastructures etc...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="synthese-section reveal">
+                        <h3><i class="fas fa-link"></i> Sources d'Information</h3>
+                        <div class="sources-grid">
+                            <div class="source-card">
+                                <i class="fas fa-newspaper"></i>
+                                <h4>Opensources Exeprience</h4>
+                                <p>Actualités, conférence quotidiennes sur l'informatique et l'infrastructure</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="separator"></div>
+
             <!-- Experience -->
             <section id="experience" class="section">
                 <div class="section-header reveal">
@@ -1726,10 +2175,10 @@
                     <div class="timeline-item reveal">
                         <div class="timeline-card">
                             <div class="timeline-date">Mars - Juin 2024 (12 semaines)</div>
-                            <div class="timeline-title">Stage Administrateur Système & Sécurité</div>
+                            <div class="timeline-title">Administrateur Système & Sécurité</div>
                             <div class="timeline-company">DSI 3F Immobilier - Paris, France</div>
                             <div class="timeline-description">
-                                Stage au sein de la DSI du groupe 3F. Administration de 500+ serveurs Windows/Linux, mise en place de politiques de sécurité Active Directory, configuration Veeam, monitoring SCOM/Nagios, participation aux projets de migration cloud Azure.
+                                Administration de 500+ serveurs Windows/Linux, mise en place de politiques de sécurité Active Directory, configuration Veeam, monitoring SCOM/Nagios et participation aux projets de migration cloud Azure.
                             </div>
                         </div>
                     </div>
@@ -1737,10 +2186,10 @@
                     <div class="timeline-item reveal">
                         <div class="timeline-card">
                             <div class="timeline-date">Mai - Juillet 2023 (10 semaines)</div>
-                            <div class="timeline-title">Stage Cybersécurité & Investigation Numérique</div>
-                            <div class="timeline-company">Gendarmerie Nationale - Fort de Rosny-sous-Bois</div>
+                            <div class="timeline-title">Cybersécurité & Investigation Numérique</div>
+                            <div class="timeline-company">Gendarmerie Nationale - STRJD, Fort de Rosny-sous-Bois</div>
                             <div class="timeline-description">
-                                Stage au STRJD. Participation à des enquêtes de cybercriminalité, analyse forensique avec Autopsy et FTK, récupération de données, veille sur les menaces cyber, formation aux outils d'investigation numérique.
+                                Participation à des enquêtes de cybercriminalité, analyse forensique avec Autopsy et FTK, récupération de données, veille sur les menaces cyber et formation aux outils d'investigation numérique.
                             </div>
                         </div>
                     </div>
@@ -1748,10 +2197,10 @@
                     <div class="timeline-item reveal">
                         <div class="timeline-card">
                             <div class="timeline-date">Octobre 2022 - Février 2023 (16 semaines)</div>
-                            <div class="timeline-title">Stage Technicien Informatique & Formation</div>
+                            <div class="timeline-title">Technicien Informatique & Formation</div>
                             <div class="timeline-company">Le Garage Numérique - Paris 19ème</div>
                             <div class="timeline-description">
-                                Association de réinsertion sociale par le numérique. Réparation et maintenance de 80+ ordinateurs, installation Linux/Windows, formation des bénéficiaires, sensibilisation à la cybersécurité personnelle.
+                                Réparation et maintenance de 80+ ordinateurs, installation Linux/Windows, formation des bénéficiaires et sensibilisation à la cybersécurité personnelle (Association de réinsertion sociale par le numérique).
                             </div>
                         </div>
                     </div>
@@ -1773,14 +2222,14 @@
                         <i class="fas fa-envelope contact-icon"></i>
                         <div>
                             <h3>Email</h3>
-                            <p><a href="mailto:rayan.sisr@gmail.com">arab.rayan9307@gmail.com</a></p>
+                            <p><a href="mailto:arab.rayan9307@gmail.com">arab.rayan9307@gmail.com</a></p>
                         </div>
                     </div>
                     <div class="contact-item reveal">
                         <i class="fas fa-phone contact-icon"></i>
                         <div>
                             <h3>Téléphone</h3>
-                            <p><a href="tel:+33123456789">+33 7 66 32 93 48</a></p>
+                            <p><a href="tel:+33766329348">+33 7 66 32 93 48</a></p>
                         </div>
                     </div>
                     <div class="contact-item reveal">
@@ -1802,7 +2251,64 @@
         </div>
     </div>
 
+    <!-- Modal for Certification Images -->
+    <div class="cert-modal" id="certModal">
+        <div class="cert-modal-content">
+            <button class="cert-close-btn" id="certCloseBtn">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="" alt="Certification" class="cert-modal-image" id="certImage">
+            <div class="cert-modal-controls">
+                <button class="cert-zoom-btn" id="zoomInBtn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <span class="cert-zoom-level" id="zoomLevel">100%</span>
+                <button class="cert-zoom-btn" id="zoomOutBtn">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Synthese Image -->
+    <div class="synthese-modal" id="syntheseModal">
+        <div class="synthese-modal-content">
+            <button class="synthese-close-btn" id="syntheseCloseBtn">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="" alt="Tableau de Synthèse" class="synthese-modal-image" id="syntheseImage">
+            <div class="synthese-modal-controls">
+                <button class="synthese-zoom-btn" id="syntheseZoomInBtn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <span class="synthese-zoom-level" id="syntheseZoomLevel">100%</span>
+                <button class="synthese-zoom-btn" id="syntheseZoomOutBtn">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Smooth scroll amélioré
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const headerOffset = 100;
+                    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
         // Navigation
         const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
         const sections = document.querySelectorAll('section');
@@ -1810,7 +2316,7 @@
         function setActive() {
             let current = 'home';
             sections.forEach(section => {
-                const sectionTop = section.offsetTop - 200;
+                const sectionTop = section.offsetTop - 150;
                 if (window.scrollY >= sectionTop) {
                     current = section.getAttribute('id');
                 }
@@ -1825,17 +2331,7 @@
         }
 
         window.addEventListener('scroll', setActive);
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
+        setActive(); // Appel initial
 
         // Reveal animation
         const observer = new IntersectionObserver((entries) => {
@@ -1867,6 +2363,144 @@
                 card.style.setProperty('--mouse-x', `${x}px`);
                 card.style.setProperty('--mouse-y', `${y}px`);
             });
+        });
+
+        // Certification Modal Logic
+        const certModal = document.getElementById('certModal');
+        const certImage = document.getElementById('certImage');
+        const certCloseBtn = document.getElementById('certCloseBtn');
+        const zoomInBtn = document.getElementById('zoomInBtn');
+        const zoomOutBtn = document.getElementById('zoomOutBtn');
+        const zoomLevel = document.getElementById('zoomLevel');
+
+        let currentZoom = 1;
+
+        document.querySelectorAll('.cert-image-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const imgSrc = card.querySelector('img').src;
+                const imgAlt = card.querySelector('img').alt;
+                certImage.src = imgSrc;
+                certImage.alt = imgAlt;
+                certModal.classList.add('active');
+                currentZoom = 1;
+                certImage.style.transform = `scale(${currentZoom})`;
+                zoomLevel.innerText = `${Math.round(currentZoom * 100)}%`;
+            });
+        });
+
+        certCloseBtn.addEventListener('click', () => {
+            certModal.classList.remove('active');
+        });
+
+        zoomInBtn.addEventListener('click', () => {
+            if (currentZoom < 2.5) {
+                currentZoom += 0.2;
+                certImage.style.transform = `scale(${currentZoom})`;
+                zoomLevel.innerText = `${Math.round(currentZoom * 100)}%`;
+            }
+        });
+
+        zoomOutBtn.addEventListener('click', () => {
+            if (currentZoom > 1) {
+                currentZoom = Math.max(1, currentZoom - 0.2);
+                certImage.style.transform = `scale(${currentZoom})`;
+                zoomLevel.innerText = `${Math.round(currentZoom * 100)}%`;
+            }
+        });
+
+        // Close modal on outside click
+        window.addEventListener('click', (e) => {
+            if (e.target === certModal) {
+                certModal.classList.remove('active');
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && certModal.classList.contains('active')) {
+                certModal.classList.remove('active');
+            }
+        });
+
+        // Synthese Modal Logic (same as certifications but for tableau de synthèse)
+        const syntheseModal = document.getElementById('syntheseModal');
+        const syntheseImage = document.getElementById('syntheseImage');
+        const syntheseCloseBtn = document.getElementById('syntheseCloseBtn');
+        const syntheseZoomInBtn = document.getElementById('syntheseZoomInBtn');
+        const syntheseZoomOutBtn = document.getElementById('syntheseZoomOutBtn');
+        const syntheseZoomLevel = document.getElementById('syntheseZoomLevel');
+        const syntheseImageCard = document.getElementById('syntheseImageCard');
+
+        let syntheseCurrentZoom = 1;
+
+        if (syntheseImageCard) {
+            // Click only on the image or overlay to open modal
+            const syntheseImg = syntheseImageCard.querySelector('img');
+            const syntheseOverlay = syntheseImageCard.querySelector('.synthese-image-overlay');
+            
+            if (syntheseImg) {
+                syntheseImg.addEventListener('click', openSynthesisModal);
+            }
+            if (syntheseOverlay) {
+                syntheseOverlay.addEventListener('click', openSynthesisModal);
+            }
+        }
+
+        function openSynthesisModal() {
+            const syntheseImg = syntheseImageCard.querySelector('img');
+            const imgSrc = syntheseImg.src;
+            const imgAlt = syntheseImg.alt;
+            syntheseImage.src = imgSrc;
+            syntheseImage.alt = imgAlt;
+            syntheseModal.classList.add('active');
+            syntheseCurrentZoom = 1;
+            syntheseImage.style.transform = `scale(${syntheseCurrentZoom})`;
+            syntheseZoomLevel.innerText = `${Math.round(syntheseCurrentZoom * 100)}%`;
+        }
+
+        if (syntheseCloseBtn) {
+            syntheseCloseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                syntheseModal.classList.remove('active');
+            });
+        }
+
+        if (syntheseZoomInBtn) {
+            syntheseZoomInBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (syntheseCurrentZoom < 3) {
+                    syntheseCurrentZoom += 0.2;
+                    syntheseImage.style.transform = `scale(${syntheseCurrentZoom})`;
+                    syntheseZoomLevel.innerText = `${Math.round(syntheseCurrentZoom * 100)}%`;
+                }
+            });
+        }
+
+        if (syntheseZoomOutBtn) {
+            syntheseZoomOutBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (syntheseCurrentZoom > 1) {
+                    syntheseCurrentZoom = Math.max(1, syntheseCurrentZoom - 0.2);
+                    syntheseImage.style.transform = `scale(${syntheseCurrentZoom})`;
+                    syntheseZoomLevel.innerText = `${Math.round(syntheseCurrentZoom * 100)}%`;
+                }
+            });
+        }
+
+        // Close synthese modal on outside click (click on the dark background only)
+        if (syntheseModal) {
+            syntheseModal.addEventListener('click', (e) => {
+                if (e.target === syntheseModal) {
+                    syntheseModal.classList.remove('active');
+                }
+            });
+        }
+
+        // Close synthese modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && syntheseModal && syntheseModal.classList.contains('active')) {
+                syntheseModal.classList.remove('active');
+            }
         });
     </script>
 </body>
