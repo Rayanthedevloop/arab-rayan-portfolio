@@ -1,2516 +1,1035 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arab Rayan | Portfolio SIO</title>
-    <link rel="icon" type="image/x-icon" href="pp.png">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
-    <!-- Suppression des CDN Tailwind et Babel en production -->
-    <script>
-        // Désactiver les avertissements de production en console
-        if (typeof window !== 'undefined') {
-            const originalWarn = console.warn;
-            const originalLog = console.log;
-            
-            console.warn = function(...args) {
-                // Ignorer les avertissements Babel et Tailwind
-                const message = args.join(' ');
-                if (
-                    !message.includes('cdn.tailwindcss.com') &&
-                    !message.includes('Babel transformer') &&
-                    !message.includes('source map')
-                ) {
-                    originalWarn.apply(console, args);
-                }
-            };
-            
-            console.log = function(...args) {
-                // Filtrer les logs inutiles
-                const message = args.join(' ');
-                if (
-                    !message.includes('cdn.tailwindcss.com') &&
-                    !message.includes('Babel') &&
-                    !message.includes('source map')
-                ) {
-                    originalLog.apply(console, args);
-                }
-            };
-        }
-    </script>
-
-    <style>
-        /* ===== RESET & VARIABLES ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #3b82f6;
-            --primary-rgb: 59,130,246;
-            --secondary: #1e40af;
-            --secondary-rgb: 30,64,175;
-            --accent: #0369a1;
-            --accent-rgb: 3,105,161;
-            --highlight: #60a5fa;
-            --highlight-rgb: 96,165,250;
-            --bg-dark: #0f172a;
-            --sidebar-bg: rgba(15, 23, 42, 0.55);
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --glass-strong: rgba(255, 255, 255, 0.05);
-            --text: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.75);
-        }
-
-        /* ===== BASE STYLES ===== */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: "Jost", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            background-image: url("background.jpg");
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            color: var(--text);
-            overflow-x: hidden;
-        }
-
-        section {
-            scroll-margin-top: 100px;
-        }
-
-        /* ===== BACKGROUND ===== */
-        .bg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: url("background.jpg");
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            animation: breathe 8s ease-in-out infinite;
-        }
-
-        @keyframes breathe {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
-            width: 320px;
-            background: var(--sidebar-bg);
-            backdrop-filter: blur(60px) saturate(180%);
-            -webkit-backdrop-filter: blur(60px) saturate(180%);
-            border-right: 1px solid var(--glass-border);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .logo-section {
-            padding: 40px 30px 30px;
-            border-bottom: 1px solid var(--glass-border);
-            position: relative;
-            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.05), rgba(var(--secondary-rgb), 0.03));
-        }
-
-        .logo-section::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 30px;
-            right: 30px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
-            opacity: 0.5;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .logo-icon {
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.18);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-icon img {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
-            filter: brightness(1.2);
-        }
-
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shine 3s infinite;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: var(--highlight);
-        }
-
-        .logo-subtitle {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            font-weight: 600;
-            padding-left: 67px;
-            opacity: 0.8;
-        }
-
-        /* ===== NAVIGATION ===== */
-        .nav-menu {
-            flex: 1;
-            padding: 25px 15px;
-            overflow-y: auto;
-        }
-
-        .nav-menu::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .nav-menu::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .nav-menu::-webkit-scrollbar-thumb {
-            background: var(--glass-border);
-            border-radius: 10px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 18px;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-radius: 12px;
-            margin-bottom: 6px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            font-weight: 500;
-            font-size: 15px;
-        }
-
-        .nav-link i {
-            width: 20px;
-            font-size: 17px;
-            transition: transform 0.3s;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 3px;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 0 3px 3px 0;
-            transform: scaleY(0);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            background: rgba(var(--primary-rgb), 0.10);
-            color: var(--text);
-            transform: translateX(2px);
-        }
-
-        .nav-link:hover i,
-        .nav-link.active i {
-            transform: scale(1.1);
-            color: var(--primary);
-        }
-
-        .nav-link:hover::before,
-        .nav-link.active::before {
-            transform: scaleY(1);
-        }
-
-        /* ===== SIDEBAR FOOTER ===== */
-        .sidebar-footer {
-            padding: 25px 30px 30px;
-            border-top: 1px solid var(--glass-border);
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .tech-icon {
-            padding: 12px 8px;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            text-align: center;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--accent);
-            transition: all 0.3s;
-        }
-
-        .tech-icon:hover {
-            background: rgba(var(--primary-rgb), 0.15);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.3);
-        }
-
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 16px;
-            background: rgba(var(--primary-rgb), 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(var(--primary-rgb), 0.12);
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--primary);
-            box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.12);
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: var(--secondary);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-            box-shadow: 0 0 12px var(--secondary);
-        }
-
-        /* ===== MAIN LAYOUT ===== */
-        .main {
-            margin-left: 320px;
-            min-height: 100vh;
-        }
-
-        .content {
-            padding: 60px 80px;
-            max-width: 1400px;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 22px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 7vw, 5.5rem);
-            font-weight: 900;
-            line-height: 1.05;
-            margin-bottom: 25px;
-            color: var(--primary);
-            letter-spacing: -2px;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            line-height: 1.7;
-            font-weight: 400;
-        }
-
-        /* ===== BUTTONS ===== */
-        .cta-buttons {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 60px;
-        }
-
-        .btn {
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(20px);
-            border: 1px solid transparent;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.32);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(var(--primary-rgb), 0.42);
-        }
-
-        .btn-secondary {
-            background: var(--glass);
-            color: white;
-            border: 1px solid var(--glass-border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--glass-strong);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-        }
-
-        /* ===== STATS ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-        }
-
-        .stat-card {
-            padding: 28px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-card:hover {
-            background: var(--glass-strong);
-            transform: translateY(-6px);
-            box-shadow: 0 12px 35px rgba(var(--primary-rgb), 0.28);
-        }
-
-        .stat-number {
-            font-size: 40px;
-            font-weight: 900;
-            color: var(--primary);
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        /* ===== SECTIONS ===== */
-        .section {
-            padding: 80px 0;
-        }
-
-        .section-header {
-            margin-bottom: 50px;
-        }
-
-        .section-tag {
-            display: inline-block;
-            padding: 8px 18px;
-            background: rgba(var(--primary-rgb), 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(var(--primary-rgb), 0.2);
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            margin-bottom: 15px;
-            letter-spacing: -1px;
-            color: var(--text);
-        }
-
-        .section-description {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 650px;
-            line-height: 1.7;
-        }
-
-        /* ===== CARDS ===== */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 22px;
-        }
-
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            padding: 32px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .card:hover {
-            background: var(--glass-strong);
-            border-color: rgba(var(--primary-rgb), 0.22);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(var(--primary-rgb), 0.18);
-        }
-
-        .card-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.32);
-        }
-
-        .card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .card p {
-            color: var(--text-muted);
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        /* ===== SKILLS ===== */
-        .skill-category {
-            margin-bottom: 40px;
-        }
-
-        .skill-category h3 {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 22px;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .skill-category h3 i {
-            color: var(--primary);
-        }
-
-        .skill-item {
-            margin-bottom: 20px;
-        }
-
-        .skill-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-        }
-
-        .skill-name {
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .skill-stars {
-            display: flex;
-            gap: 4px;
-        }
-
-        .skill-stars i.fas {
-            color: var(--primary);
-            filter: drop-shadow(0 0 4px rgba(var(--primary-rgb), 0.32));
-        }
-
-        .skill-stars i.far {
-            color: rgba(var(--primary-rgb), 0.3);
-        }
-
-        /* ===== PROJECTS ===== */
-        .project-card {
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .project-card:hover {
-            border-color: rgba(var(--primary-rgb), 0.22);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(var(--primary-rgb), 0.18);
-        }
-
-        .project-header {
-            padding: 28px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            position: relative;
-            overflow: hidden;
-            color: white;
-        }
-
-        .project-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shine 3s infinite;
-        }
-
-        .project-header h3 {
-            font-size: 1.4rem;
-            margin-bottom: 6px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-        }
-
-        .project-type {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        .project-content {
-            padding: 28px;
-        }
-
-        .project-description {
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tag {
-            padding: 8px 14px;
-            background: rgba(var(--primary-rgb), 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(var(--primary-rgb), 0.14);
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            transition: all 0.3s;
-        }
-
-        .tag:hover {
-            background: rgba(var(--primary-rgb), 0.14);
-            transform: translateY(-2px);
-        }
-
-        /* ===== TIMELINE ===== */
-        .timeline {
-            position: relative;
-            padding-left: 50px;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 15px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-        }
-
-        .timeline-item {
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -43px;
-            top: 8px;
-            width: 16px;
-            height: 16px;
-            background: var(--primary);
-            border-radius: 50%;
-            border: 3px solid var(--bg-dark);
-            box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.38);
-        }
-
-        .timeline-card {
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 28px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .timeline-card:hover {
-            background: var(--glass-strong);
-            transform: translateX(10px);
-            box-shadow: 0 10px 35px rgba(var(--primary-rgb), 0.2);
-        }
-
-        .timeline-date {
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        .timeline-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--text);
-        }
-
-        .timeline-company {
-            color: var(--highlight);
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .timeline-description {
-            color: var(--text-muted);
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        /* ===== SEPARATOR ===== */
-        .separator {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
-            margin: 80px 0;
-            position: relative;
-        }
-
-        .separator::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.48);
-        }
-
-        /* ===== MOBILE NAV ===== */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
-            background: var(--sidebar-bg);
-            backdrop-filter: blur(60px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 12px 30px;
-            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.6);
-        }
-
-        .mobile-nav-links {
-            display: flex;
-            gap: 25px;
-        }
-
-        .mobile-nav-link {
-            color: var(--text-muted);
-            font-size: 22px;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-
-        .mobile-nav-link:hover,
-        .mobile-nav-link.active {
-            color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        /* ===== CERTIFICATIONS ===== */
-        .cert-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 3000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .cert-modal.active {
-            display: flex;
-        }
-
-        .cert-modal-content {
-            position: relative;
-            max-width: 90vw;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .cert-modal-image {
-            max-width: 80vw;
-            max-height: 75vh;
-            object-fit: contain;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            transition: transform 0.2s;
-            cursor: zoom-in;
-        }
-
-        .cert-modal-controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            background: rgba(var(--primary-rgb), 0.15);
-            padding: 12px 20px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(var(--primary-rgb), 0.25);
-        }
-
-        .cert-zoom-btn {
-            background: rgba(var(--primary-rgb), 0.25);
-            border: 1px solid rgba(var(--primary-rgb), 0.4);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.3s;
-        }
-
-        .cert-zoom-btn:hover {
-            background: rgba(var(--primary-rgb), 0.35);
-            transform: scale(1.05);
-        }
-
-        .cert-zoom-level {
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 600;
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .cert-close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(var(--accent-rgb), 0.8);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.4);
-        }
-
-        .cert-close-btn:hover {
-            background: rgba(var(--accent-rgb), 1);
-            transform: scale(1.1);
-        }
-
-        .cert-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 18px;
-        }
-
-        .cert-image-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 14px;
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            aspect-ratio: 3/4;
-        }
-
-        .cert-image-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 35px rgba(var(--primary-rgb), 0.28);
-            border-color: rgba(var(--primary-rgb), 0.22);
-        }
-
-        .cert-image-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .cert-image-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .cert-image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.3), rgba(var(--secondary-rgb), 0.3));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .cert-image-card:hover .cert-image-overlay {
-            opacity: 1;
-        }
-
-        .cert-zoom-icon {
-            font-size: 32px;
-            color: white;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-        }
-
-        /* ===== SYNTHESE IMAGE DISPLAY ===== */
-        .synthese-image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.3), rgba(var(--secondary-rgb), 0.3));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .synthese-image-card img:hover ~ .synthese-image-overlay,
-        .synthese-image-overlay:hover {
-            opacity: 1;
-        }
-
-        .synthese-zoom-icon {
-            font-size: 32px;
-            color: white;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-        }
-
-        /* ===== SYNTHESE MODAL ===== */
-        .synthese-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 3000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .synthese-modal.active {
-            display: flex;
-        }
-
-        .synthese-modal-content {
-            position: relative;
-            max-width: 90vw;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .synthese-modal-image {
-            max-width: 80vw;
-            max-height: 75vh;
-            object-fit: contain;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            transition: transform 0.2s;
-            cursor: zoom-in;
-        }
-
-        .synthese-modal-controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            background: rgba(var(--primary-rgb), 0.15);
-            padding: 12px 20px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(var(--primary-rgb), 0.25);
-        }
-
-        .synthese-zoom-btn {
-            background: rgba(var(--primary-rgb), 0.25);
-            border: 1px solid rgba(var(--primary-rgb), 0.4);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.3s;
-        }
-
-        .synthese-zoom-btn:hover {
-            background: rgba(var(--primary-rgb), 0.35);
-            transform: scale(1.05);
-        }
-
-        .synthese-zoom-level {
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 600;
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .synthese-close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(var(--accent-rgb), 0.8);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.4);
-        }
-
-        .synthese-close-btn:hover {
-            background: rgba(var(--accent-rgb), 1);
-            transform: scale(1.1);
-        }
-
-        /* ===== VEILLE ===== */
-        .veille-container {
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.3);
-        }
-
-        .veille-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 22px 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .veille-header h3 {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        .veille-controls {
-            display: flex;
-            gap: 12px;
-        }
-
-        .veille-btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .veille-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .iframe-container {
-            position: relative;
-            width: 100%;
-            height: 600px;
-            background: var(--bg-dark);
-        }
-
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* ===== CONTACT ===== */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 22px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 18px;
-            padding: 28px;
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .contact-item:hover {
-            background: var(--glass-strong);
-            transform: translateY(-6px);
-            box-shadow: 0 12px 35px rgba(var(--primary-rgb), 0.25);
-            border-color: rgba(var(--primary-rgb), 0.22);
-        }
-
-        .contact-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            transition: transform 0.3s;
-            flex-shrink: 0;
-            margin-top: 4px;
-        }
-
-        .contact-item:hover .contact-icon {
-            transform: scale(1.15);
-        }
-
-        .contact-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .contact-item p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .contact-item a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .contact-item a:hover {
-            color: var(--highlight);
-        }
-
-        /* ===== TABLEAU DE SYNTHÈSE ===== */
-        .synthese-container {
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            padding: 40px;
-            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.3);
-        }
-
-        .synthese-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-            align-items: center;
-        }
-
-        .synthese-image-card {
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.25);
-            aspect-ratio: 4/3;
-            position: relative;
-        }
-
-        .synthese-image-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-
-        .synthese-image-card img:hover {
-            transform: scale(1.05);
-        }
-
-        .synthese-content h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text);
-        }
-
-        .synthese-content p {
-            color: var(--text-muted);
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        .synthese-section {
-            margin-bottom: 40px;
-        }
-
-        .synthese-section h3 {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: var(--text);
-        }
-
-        .synthese-section h3 i {
-            color: var(--primary);
-            font-size: 1.4rem;
-        }
-
-        .synthese-items {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .synthese-item {
-            display: flex;
-            gap: 18px;
-            padding: 20px;
-            background: rgba(var(--primary-rgb), 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(var(--primary-rgb), 0.1);
-            border-radius: 14px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .synthese-item:hover {
-            background: rgba(var(--primary-rgb), 0.1);
-            transform: translateX(5px);
-            border-color: rgba(var(--primary-rgb), 0.2);
-        }
-
-        .synthese-dot {
-            width: 14px;
-            height: 14px;
-            background: var(--primary);
-            border-radius: 50%;
-            flex-shrink: 0;
-            margin-top: 4px;
-            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.4);
-        }
-
-        .synthese-item-content h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 4px;
-        }
-
-        .synthese-date {
-            color: var(--primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .synthese-item-content p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .sources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-        }
-
-        .source-card {
-            padding: 24px;
-            background: rgba(var(--primary-rgb), 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(var(--primary-rgb), 0.14);
-            border-radius: 14px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .source-card:hover {
-            background: rgba(var(--primary-rgb), 0.15);
-            transform: translateY(-6px);
-            box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.2);
-            border-color: rgba(var(--primary-rgb), 0.22);
-        }
-
-        .source-card i {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .source-card h4 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 8px;
-        }
-
-        .source-card p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.6;
-        }
-
-        /* ===== REVEAL ANIMATION ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .main {
-                margin-left: 0;
-            }
-
-            .content {
-                padding: 40px 30px 120px;
-            }
-
-            .mobile-nav {
-                display: block;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .iframe-container {
-                height: 400px;
-            }
-
-            .synthese-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .sources-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .stats-grid,
-            .cards-grid,
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .content {
-                padding: 30px 20px 120px;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                justify-content: center;
-            }
-
-            .tech-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .sidebar {
-                width: 280px;
-            }
-
-            .iframe-container {
-                height: 300px;
-            }
-
-            .veille-header {
-                flex-direction: column;
-                gap: 12px;
-                align-items: flex-start;
-            }
-
-            .veille-controls {
-                width: 100%;
-                justify-content: flex-start;
-            }
-
-            .synthese-container {
-                padding: 25px;
-            }
-
-            .synthese-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .sources-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Arab Rayan | Portfolio BTS SIO SISR</title>
+<link rel="icon" type="image/x-icon" href="pp.png">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0d;
+  --bg2:#111111;
+  --card:#161616;
+  --card2:#1a1a1a;
+  --border:#222222;
+  --orange:#ff4d00;
+  --orange2:#ff7a40;
+  --orange-glow:rgba(255,77,0,0.18);
+  --text:#f5f5f5;
+  --muted:#888888;
+  --muted2:#555555;
+  --sidebar:280px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:2px}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  position:fixed;left:0;top:0;width:var(--sidebar);height:100vh;
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  z-index:200;
+  display:flex;flex-direction:column;
+  transition:transform .4s cubic-bezier(.4,0,.2,1);
+  overflow:hidden;
+}
+.sidebar::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--orange),var(--orange2),transparent);
+}
+
+/* sidebar top */
+.sb-top{padding:36px 28px 24px;border-bottom:1px solid var(--border)}
+.sb-logo{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.sb-avatar{
+  width:48px;height:48px;border-radius:12px;overflow:hidden;
+  border:2px solid var(--orange);flex-shrink:0;
+  box-shadow:0 0 20px var(--orange-glow);
+}
+.sb-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.sb-name{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;letter-spacing:-0.5px}
+.sb-name span{color:var(--orange)}
+.sb-role{font-size:0.72rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.sb-status{
+  display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+  padding:6px 12px;border-radius:6px;
+  background:rgba(255,77,0,0.08);border:1px solid rgba(255,77,0,0.2);
+  font-size:0.75rem;font-weight:600;color:var(--orange2);
+}
+.sb-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 2s infinite;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* sidebar nav */
+.sb-nav{flex:1;padding:20px 14px;overflow-y:auto}
+.sb-nav::-webkit-scrollbar{width:0}
+.nav-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;border-radius:8px;margin-bottom:2px;
+  color:var(--muted);text-decoration:none;font-size:0.88rem;font-weight:500;
+  transition:all .25s;position:relative;cursor:pointer;
+}
+.nav-item i{width:18px;font-size:14px;flex-shrink:0;transition:color .25s}
+.nav-item:hover,.nav-item.active{color:var(--text);background:rgba(255,77,0,0.07)}
+.nav-item:hover i,.nav-item.active i{color:var(--orange)}
+.nav-item.active::before{
+  content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;
+  background:var(--orange);border-radius:0 2px 2px 0;
+}
+
+/* sidebar footer */
+.sb-footer{padding:20px 14px 24px;border-top:1px solid var(--border)}
+.sb-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.sb-tag{
+  padding:4px 10px;border-radius:4px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  font-size:0.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;
+  transition:all .2s;
+}
+.sb-tag:hover{border-color:var(--orange);color:var(--orange2)}
+
+/* ── MOBILE NAV ── */
+.mobile-nav{
+  display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  z-index:300;background:rgba(17,17,17,0.95);backdrop-filter:blur(20px);
+  border:1px solid var(--border);border-radius:20px;padding:10px 24px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.6);
+}
+.mob-links{display:flex;gap:24px}
+.mob-link{color:var(--muted);font-size:18px;text-decoration:none;transition:color .2s;padding:4px}
+.mob-link:hover,.mob-link.active{color:var(--orange)}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar);min-height:100vh}
+.content{padding:0 80px;max-width:1300px}
+
+/* ── HERO ── */
+#home{
+  min-height:100vh;display:flex;align-items:center;
+  padding:80px 80px 60px;
+  position:relative;overflow:hidden;
+}
+.hero-bg-line{
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+}
+.hero-noise{
+  position:absolute;inset:0;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.hero-inner{max-width:1200px;width:100%;display:grid;grid-template-columns:1fr auto;gap:80px;align-items:center;position:relative;z-index:1}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:24px;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:3px;
+  color:var(--orange);
+}
+.hero-eyebrow::before{content:'';width:28px;height:2px;background:var(--orange)}
+
+h1.hero-title{
+  font-family:'Syne',sans-serif;font-size:clamp(3rem,6vw,5.5rem);
+  font-weight:800;letter-spacing:-3px;line-height:1;margin-bottom:20px;
+  color:var(--text);
+}
+h1.hero-title .hl{color:var(--orange)}
+
+.hero-desc{
+  font-size:1.05rem;color:var(--muted);line-height:1.75;
+  max-width:520px;margin-bottom:40px;font-weight:400;
+}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:60px}
+.btn{
+  padding:13px 28px;border-radius:8px;font-size:.9rem;font-weight:600;
+  text-decoration:none;display:inline-flex;align-items:center;gap:9px;
+  transition:all .25s;font-family:'Space Grotesk',sans-serif;border:none;cursor:pointer;
+}
+.btn-orange{
+  background:var(--orange);color:#fff;
+  box-shadow:0 4px 24px var(--orange-glow);
+}
+.btn-orange:hover{background:var(--orange2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,77,0,0.35)}
+.btn-ghost{
+  background:transparent;color:var(--text);border:1px solid var(--border);
+}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px)}
+
+/* stats */
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.h-stat{
+  padding:20px 16px;background:var(--card);border:1px solid var(--border);
+  border-radius:10px;text-align:center;
+  transition:border-color .25s,transform .25s;
+}
+.h-stat:hover{border-color:rgba(255,77,0,0.3);transform:translateY(-3px)}
+.h-stat-num{
+  font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;
+  color:var(--orange);letter-spacing:-1px;display:block;margin-bottom:4px;
+}
+.h-stat-label{font-size:.78rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:1px}
+
+/* hero photo */
+.hero-photo-wrap{flex-shrink:0;position:relative}
+.hero-photo-frame{
+  width:260px;height:300px;border-radius:16px;overflow:hidden;
+  border:1px solid var(--border);position:relative;
+  box-shadow:0 0 60px rgba(255,77,0,0.1),0 20px 60px rgba(0,0,0,0.5);
+}
+.hero-photo-frame::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 60%,rgba(255,77,0,0.15));
+  z-index:1;pointer-events:none;
+}
+.hero-photo-frame img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.hero-photo-badge{
+  position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);
+  background:var(--card2);border:1px solid rgba(255,77,0,0.3);
+  border-radius:20px;padding:8px 18px;white-space:nowrap;
+  font-size:.78rem;font-weight:700;color:var(--orange2);
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+  display:flex;align-items:center;gap:7px;
+}
+.hero-photo-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 2s infinite}
+
+/* ── SECTIONS ── */
+.sec{padding:90px 80px;position:relative}
+.sec::before{
+  content:'';position:absolute;top:0;left:80px;right:80px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+}
+.sec-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;
+  color:var(--orange);margin-bottom:14px;
+}
+.sec-tag::before{content:'';width:20px;height:2px;background:var(--orange)}
+h2.sec-title{
+  font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);
+  font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:12px;color:var(--text);
+}
+h2.sec-title span{color:var(--orange)}
+.sec-desc{font-size:1rem;color:var(--muted);max-width:560px;line-height:1.7;margin-bottom:50px;font-weight:400}
+
+/* ── CARDS GRID ── */
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cards-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:30px;transition:border-color .3s,transform .3s,box-shadow .3s;
+  position:relative;overflow:hidden;
+}
+.card:hover{
+  border-color:rgba(255,77,0,0.25);transform:translateY(-5px);
+  box-shadow:0 16px 50px rgba(0,0,0,0.4),0 0 30px rgba(255,77,0,0.07);
+}
+.card-icon{
+  width:50px;height:50px;border-radius:12px;
+  background:rgba(255,77,0,0.1);border:1px solid rgba(255,77,0,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;color:var(--orange);margin-bottom:18px;
+  transition:background .25s;
+}
+.card:hover .card-icon{background:rgba(255,77,0,0.18)}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:10px;color:var(--text)}
+.card p{font-size:.9rem;color:var(--muted);line-height:1.7}
+
+/* ── SKILLS ── */
+.skill-cat-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:1rem;font-weight:700;color:var(--text);margin-bottom:20px;
+}
+.skill-cat-title i{color:var(--orange);font-size:1rem}
+.skill-row{margin-bottom:16px}
+.skill-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.skill-name{font-size:.88rem;font-weight:600;color:var(--text)}
+.skill-bar-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.skill-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--orange),var(--orange2));transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.stars{display:flex;gap:3px}
+.stars i.fas{color:var(--orange);font-size:11px}
+.stars i.far{color:var(--muted2);font-size:11px}
+.stars i.fa-star-half-alt{color:var(--orange);font-size:11px}
+
+/* ── PROJECTS ── */
+.project-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;
+  text-decoration:none;color:inherit;display:block;
+}
+.project-card:hover{
+  border-color:rgba(255,77,0,0.3);transform:translateY(-6px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 30px rgba(255,77,0,0.08);
+}
+.proj-header{
+  padding:28px 28px 0;
+  display:flex;justify-content:space-between;align-items:flex-start;
+}
+.proj-icon{
+  width:52px;height:52px;border-radius:12px;
+  background:rgba(255,77,0,0.1);border:1px solid rgba(255,77,0,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;color:var(--orange);
+}
+.proj-ext{
+  width:32px;height:32px;border-radius:7px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;color:var(--muted);text-decoration:none;
+  transition:border-color .2s,color .2s;
+}
+.proj-ext:hover{border-color:var(--orange);color:var(--orange)}
+.proj-body{padding:20px 28px 28px}
+.proj-tag{
+  display:inline-block;padding:3px 10px;border-radius:4px;
+  background:rgba(255,77,0,0.08);border:1px solid rgba(255,77,0,0.15);
+  font-size:.7rem;font-weight:700;color:var(--orange2);text-transform:uppercase;letter-spacing:.5px;
+  margin-bottom:12px;
+}
+.proj-title{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+.proj-desc{font-size:.88rem;color:var(--muted);line-height:1.65;margin-bottom:18px}
+.proj-stack{display:flex;flex-wrap:wrap;gap:7px}
+.proj-pill{
+  padding:4px 10px;border-radius:5px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  font-size:.72rem;font-weight:600;color:var(--muted);
+}
+.project-card.featured{grid-column:1/-1}
+.project-card.featured .proj-body{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{
+  content:'';position:absolute;left:0;top:6px;bottom:6px;
+  width:2px;background:linear-gradient(to bottom,var(--orange),rgba(255,77,0,.05));
+}
+.tl-item{position:relative;margin-bottom:36px}
+.tl-dot{
+  position:absolute;left:-39px;top:5px;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--orange);border:3px solid var(--bg);
+  box-shadow:0 0 14px var(--orange-glow);
+}
+.tl-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:26px;
+  transition:border-color .25s,transform .25s;
+}
+.tl-card:hover{border-color:rgba(255,77,0,0.25);transform:translateX(5px)}
+.tl-date{font-size:.78rem;font-weight:700;color:var(--orange);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.tl-title{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.tl-sub{font-size:.88rem;color:var(--orange2);font-weight:600;margin-bottom:12px}
+.tl-desc{font-size:.88rem;color:var(--muted);line-height:1.7}
+
+/* ── CERTIFICATIONS ── */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.cert-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;aspect-ratio:3/4;position:relative;cursor:pointer;
+  transition:border-color .3s,transform .3s;
+}
+.cert-card:hover{border-color:rgba(255,77,0,0.3);transform:translateY(-4px)}
+.cert-card img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.cert-card:hover img{transform:scale(1.05)}
+.cert-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,77,0,0.25),rgba(0,0,0,0.5));
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s;
+}
+.cert-card:hover .cert-overlay{opacity:1}
+.cert-overlay i{font-size:1.8rem;color:#fff}
+
+/* ── VEILLE ── */
+.veille-box{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;
+}
+.veille-top{
+  padding:20px 24px;background:rgba(255,77,0,0.05);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.veille-top h3{display:flex;align-items:center;gap:10px;font-size:1rem;font-weight:700}
+.veille-top h3 i{color:var(--orange)}
+.veille-actions{display:flex;gap:10px}
+.veille-btn{
+  padding:8px 16px;border-radius:7px;
+  background:rgba(255,77,0,0.1);border:1px solid rgba(255,77,0,0.2);
+  color:var(--orange);font-size:.8rem;font-weight:600;
+  text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:6px;
+  transition:background .2s;font-family:'Space Grotesk',sans-serif;
+}
+.veille-btn:hover{background:rgba(255,77,0,0.2)}
+.iframe-wrap{height:550px;background:var(--bg)}
+.iframe-wrap iframe{width:100%;height:100%;border:none}
+
+/* ── SYNTHESE ── */
+.synth-box{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;padding:40px;
+}
+.synth-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:40px;align-items:start}
+.synth-img{
+  border-radius:12px;overflow:hidden;border:1px solid var(--border);
+  aspect-ratio:4/3;cursor:pointer;position:relative;
+}
+.synth-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.synth-img:hover img{transform:scale(1.04)}
+.synth-overlay{
+  position:absolute;inset:0;
+  background:rgba(255,77,0,0.15);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s;
+}
+.synth-img:hover .synth-overlay{opacity:1}
+.synth-overlay i{font-size:2rem;color:#fff}
+.synth-text h3{font-size:1.15rem;font-weight:700;margin-bottom:12px}
+.synth-text p{font-size:.9rem;color:var(--muted);line-height:1.7}
+.synth-section-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:1rem;font-weight:700;color:var(--text);
+  margin-bottom:20px;margin-top:36px;
+}
+.synth-section-title i{color:var(--orange)}
+.synth-event{
+  display:flex;gap:16px;padding:20px;
+  background:rgba(255,77,0,0.04);border:1px solid rgba(255,77,0,0.1);
+  border-radius:10px;margin-bottom:12px;
+  transition:background .2s,transform .2s;
+}
+.synth-event:hover{background:rgba(255,77,0,0.08);transform:translateX(4px)}
+.synth-dot{width:12px;height:12px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:5px;box-shadow:0 0 10px var(--orange-glow)}
+.synth-event h4{font-size:1rem;font-weight:700;margin-bottom:3px}
+.synth-event .evt-date{font-size:.78rem;color:var(--orange);font-weight:600;margin-bottom:6px}
+.synth-event p{font-size:.88rem;color:var(--muted);line-height:1.6}
+.sources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.source-card{
+  padding:22px;background:rgba(255,77,0,0.05);border:1px solid rgba(255,77,0,0.1);
+  border-radius:10px;text-align:center;transition:all .25s;
+}
+.source-card:hover{background:rgba(255,77,0,0.12);transform:translateY(-4px)}
+.source-card i{font-size:1.8rem;color:var(--orange);margin-bottom:10px;display:block}
+.source-card h4{font-size:.9rem;font-weight:700;margin-bottom:6px}
+.source-card p{font-size:.8rem;color:var(--muted);line-height:1.5}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.contact-card{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:24px;background:var(--card);border:1px solid var(--border);border-radius:12px;
+  transition:border-color .25s,transform .25s;text-decoration:none;color:inherit;
+}
+.contact-card:hover{border-color:rgba(255,77,0,0.3);transform:translateY(-4px)}
+.contact-icon{
+  width:44px;height:44px;border-radius:10px;flex-shrink:0;
+  background:rgba(255,77,0,0.1);border:1px solid rgba(255,77,0,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;color:var(--orange);
+}
+.contact-card h3{font-size:.9rem;font-weight:700;margin-bottom:4px}
+.contact-card p,.contact-card a{font-size:.85rem;color:var(--muted);text-decoration:none}
+.contact-card a:hover{color:var(--orange)}
+
+/* ── MODAL ── */
+.modal{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.9);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;
+}
+.modal.open{display:flex}
+.modal-inner{position:relative;display:flex;flex-direction:column;align-items:center;gap:16px}
+.modal-img{max-width:85vw;max-height:78vh;object-fit:contain;border-radius:10px}
+.modal-close{
+  position:fixed;top:24px;right:24px;width:40px;height:40px;border-radius:50%;
+  background:rgba(255,77,0,0.8);border:none;color:#fff;font-size:1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .2s,transform .2s;
+}
+.modal-close:hover{background:var(--orange);transform:scale(1.1)}
+.modal-controls{
+  display:flex;gap:10px;align-items:center;
+  background:rgba(255,77,0,0.1);border:1px solid rgba(255,77,0,0.2);
+  padding:10px 18px;border-radius:8px;
+}
+.modal-btn{
+  background:rgba(255,77,0,0.15);border:1px solid rgba(255,77,0,0.3);
+  color:var(--text);padding:7px 14px;border-radius:6px;cursor:pointer;
+  font-size:.82rem;font-weight:700;transition:background .2s;font-family:'Space Grotesk',sans-serif;
+}
+.modal-btn:hover{background:rgba(255,77,0,0.3)}
+.modal-zoom-val{font-size:.82rem;color:var(--muted);min-width:50px;text-align:center;font-weight:600}
+
+/* ── REVEAL ANIMATION ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .sidebar{transform:translateX(-100%)}
+  .main{margin-left:0}
+  .sec,#home{padding-left:30px;padding-right:30px}
+  .content{padding:0 30px}
+  .mobile-nav{display:block}
+  .cards-3{grid-template-columns:repeat(2,1fr)}
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .hero-photo-wrap{justify-self:center}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .synth-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .cards-3,.cards-2{grid-template-columns:1fr}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .hero-btns{flex-direction:column}
+  .project-card.featured .proj-body{display:block}
+  .synth-box{padding:24px}
+  #home{padding:80px 24px 60px}
+  .sec{padding:70px 24px}
+}
+</style>
 </head>
 <body>
-    <div class="bg-container"></div>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo-section">
-            <div class="logo">
-                <div class="logo-icon">
-                    <img src="pp.png" alt="Logo">
-                </div>
-                <div class="logo-text">Rayan</div>
-            </div>
-            <div class="logo-subtitle">Portfolio BTS</div>
-        </div>
-
-        <nav class="nav-menu">
-            <a href="#home" class="nav-link active">
-                <i class="fas fa-home"></i>
-                <span>Accueil</span>
-            </a>
-            <a href="#about" class="nav-link">
-                <i class="fas fa-user"></i>
-                <span>À propos</span>
-            </a>
-            <a href="#skills" class="nav-link">
-                <i class="fas fa-code"></i>
-                <span>Compétences</span>
-            </a>
-            <a href="#certifications" class="nav-link">
-                <i class="fas fa-certificate"></i>
-                <span>Certifications</span>
-            </a>
-            <a href="#projects" class="nav-link">
-                <i class="fas fa-folder"></i>
-                <span>Projets</span>
-            </a>
-            <a href="#formation" class="nav-link">
-                <i class="fas fa-graduation-cap"></i>
-                <span>Formation</span>
-            </a>
-            <a href="#veille" class="nav-link">
-                <i class="fas fa-rss"></i>
-                <span>Veille</span>
-            </a>
-            <a href="#tableau-synthese" class="nav-link">
-                <i class="fas fa-table"></i>
-                <span>Tableau Synthèse</span>
-            </a>
-            <a href="#experience" class="nav-link">
-                <i class="fas fa-briefcase"></i>
-                <span>Expérience</span>
-            </a>
-            <a href="#contact" class="nav-link">
-                <i class="fas fa-envelope"></i>
-                <span>Contact</span>
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="tech-grid">
-                <div class="tech-icon">HTML/CSS/JS</div>
-                <div class="tech-icon">Réseau</div>
-                <div class="tech-icon">PHP/SQL</div>
-                <div class="tech-icon">Design UX/UI </div>
-                <div class="tech-icon">Virtualisation</div>
-                <div class="tech-icon">Cybersecurity</div>
-            </div>
-            <div class="status">
-                <div class="status-dot" aria-hidden="true"></div>
-                <span>Disponible pour un stage</span>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Mobile Nav -->
-    <div class="mobile-nav">
-        <div class="mobile-nav-links">
-            <a href="#home" class="mobile-nav-link active"><i class="fas fa-home"></i></a>
-            <a href="#about" class="mobile-nav-link"><i class="fas fa-user"></i></a>
-            <a href="#skills" class="mobile-nav-link"><i class="fas fa-code"></i></a>
-            <a href="#projects" class="mobile-nav-link"><i class="fas fa-folder"></i></a>
-            <a href="#tableau-synthese" class="mobile-nav-link"><i class="fas fa-table"></i></a>
-            <a href="#contact" class="mobile-nav-link"><i class="fas fa-envelope"></i></a>
-        </div>
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-top">
+    <div class="sb-logo">
+      <div class="sb-avatar">
+        <img src="photo_4.png" alt="Arab Rayan" onerror="this.src='pp.png'"/>
+      </div>
+      <div>
+        <div class="sb-name">Arab <span>Rayan</span></div>
+        <div class="sb-role">BTS SIO · SISR</div>
+      </div>
     </div>
+    <div class="sb-status">Disponible pour un stage</div>
+  </div>
 
-    <!-- Main Content -->
-    <div class="main">
-        <div class="content">
-            <!-- Hero -->
-            <section id="home" class="hero">
-                <div class="hero-content">
-                    <div class="hero-tag reveal">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Étudiant BTS SIO SISR</span>
-                    </div>
-                    <h1 class="hero-title reveal">Portfolio Arab Rayan</h1>
-                    <p class="hero-subtitle reveal">Étudiant passionné par le reseaux, l'administration système et les technologies émergentes. Spécialisé en Réseaux et télécommunication .</p>
-                    
-                    <div class="cta-buttons reveal">
-                        <a href="#projects" class="btn btn-primary">
-                            <i class="fas fa-rocket"></i>
-                            Voir mes projets
-                        </a>
-                        <a href="cv.pdf" class="btn btn-secondary">
-                            <i class="fas fa-envelope"></i>
-                            Mon CV 
-                        </a>
-                        <a href="#veille" class="btn btn-secondary">
-                            <i class="fas fa-globe"></i>
-                            Ma veille
-                        </a>
-                    </div>
+  <nav class="sb-nav">
+    <a href="#home" class="nav-item active"><i class="fas fa-house"></i><span>Accueil</span></a>
+    <a href="#about" class="nav-item"><i class="fas fa-user"></i><span>À propos</span></a>
+    <a href="#skills" class="nav-item"><i class="fas fa-code"></i><span>Compétences</span></a>
+    <a href="#certifications" class="nav-item"><i class="fas fa-certificate"></i><span>Certifications</span></a>
+    <a href="#projects" class="nav-item"><i class="fas fa-folder-open"></i><span>Projets</span></a>
+    <a href="#formation" class="nav-item"><i class="fas fa-graduation-cap"></i><span>Formation</span></a>
+    <a href="#veille" class="nav-item"><i class="fas fa-rss"></i><span>Veille</span></a>
+    <a href="#synthese" class="nav-item"><i class="fas fa-table-cells"></i><span>Tableau Synthèse</span></a>
+    <a href="#experience" class="nav-item"><i class="fas fa-briefcase"></i><span>Expérience</span></a>
+    <a href="#contact" class="nav-item"><i class="fas fa-envelope"></i><span>Contact</span></a>
+  </nav>
 
-                    <div class="stats-grid">
-                        <div class="stat-card reveal">
-                            <span class="stat-number">2+</span>
-                            <span class="stat-label">Années BTS</span>
-                        </div>
-                        <div class="stat-card reveal">
-                            <span class="stat-number">3+</span>
-                            <span class="stat-label">Projets</span>
-                        </div>
-                        <div class="stat-card reveal">
-                            <span class="stat-number">2</span>
-                            <span class="stat-label">Stages</span>
-                        </div>
-                        <div class="stat-card reveal">
-                            <span class="stat-number">2+</span>
-                            <span class="stat-label">Certifications</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="separator"></div>
-
-            <!-- About -->
-            <section id="about" class="section">
-                <div class="section-header reveal">
-                    <div class="section-tag">À propos</div>
-                    <h2 class="section-title">Qui suis-je ?</h2>
-                    <p class="section-description">Étudiant passionné par l'informatique en général, l'administration système/réseaux et les technologies émergentes.</p>
-                </div>
-
-                <div class="cards-grid">
-                    <div class="card reveal">
-                        <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
-                        <h3>Formation</h3>
-                        <p>BTS SIO option SISR, spécialisée en administration système, infrastructure, et virtualisation.</p>
-                    </div>
-                    <div class="card reveal">
-                        <div class="card-icon"><i class="fas fa-bullseye"></i></div>
-                        <h3>Objectif</h3>
-                        <p>Poursuivre mes études en licence professionnelle spécialisé en réseaux ou cybersécurité, afin d’évoluer vers un poste d’administrateur réseaux confirmé..</p>
-                    </div>
-                    <div class="card reveal">
-                        <div class="card-icon"><i class="fas fa-vr-cardboard"></i></div>
-                        <h3>Centres d'intérêt</h3>
-                        <p>J’aime suivre l’actualité des nouvelles technologies, je pratique le sport pendant mon temps libre et je me forme au réseaux en autonomie en regardant des tutoriels et en faisant des exercices pratiques.</p>
-                    </div>
-                </div>
-            </section>
-
-            <div class="separator"></div>
-
-            <!-- Skills -->
-            <section id="skills" class="section">
-                <div class="section-header reveal">
-                    <div class="section-tag">Compétences</div>
-                    <h2 class="section-title">Expertises Techniques</h2>
-                    <p class="section-description">Technologies maîtrisées en administration système, infrastructure, et virtualisation</p>
-                </div>
-
-                <div class="cards-grid">
-                    <div class="card reveal">
-                        <div class="skill-category">
-                            <h3><i class="fas fa-shield-alt"></i> Administration Système</h3>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Configurer un réseau</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Sécuriser des systèmes</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Mise en place d'OS</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card reveal">
-                        <div class="skill-category">
-                            <h3><i class="fas fa-cube"></i> Infrastructure</h3>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Application du protocole</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Optimisation des systèmes informatiques</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Installation du matériel informatique</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card reveal">
-                        <div class="skill-category">
-                            <h3><i class="fas fa-server"></i> Virtualisation</h3>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">VirtualBox</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Linux Admin</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Windows Server</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card reveal">
-                        <div class="skill-category">
-                            <h3><i class="fas fa-vr-cardboard"></i> Experimentation</h3>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name"> Unity/Unreal E5</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name"> n/a</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name"> n/a</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card reveal">
-                        <div class="skill-category">
-                            <h3><i class="fas fa-code"></i> Développement</h3>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Python</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">PHP/SQL</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">HTML/CSS/JS</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card reveal">
-                        <div class="skill-category">
-                            <h3><i class="fas fa-network-wired"></i> A venir...</h3>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">A venir...</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">A venir...</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">A venir...</span>
-                                    <div class="skill-stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="separator"></div>
-
-            <!-- Certifications -->
-            <section id="certifications" class="section">
-                <div class="section-header reveal">
-                    <div class="section-tag">Certifications</div>
-                    <h2 class="section-title">Mes Certifications</h2>
-                    <p class="section-description">Certifications obtenues et en cours de préparation</p>
-                </div>
-
-                <div class="cert-gallery">
-                    <div class="cert-image-card reveal">
-                        <img src="./ebios.jpg" alt="EBIOS" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%23d87a2d%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2224%22 font-weight=%22bold%22%3EEBIOS%3C/text%3E%3C/svg%3E'">
-                        <div class="cert-image-overlay">
-                            <i class="fas fa-search-plus cert-zoom-icon"></i>
-                        </div>
-                    </div>
-                    <div class="cert-image-card reveal">
-                        <img src="./cisco.jpg" alt="Packet Tracer" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%237a4b2b%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2220%22 font-weight=%22bold%22%3ECisco Packet Tracer%3C/text%3E%3C/svg%3E'">
-                        <div class="cert-image-overlay">
-                            <i class="fas fa-search-plus cert-zoom-icon"></i>
-                        </div>
-                    </div>
-                    <div class="cert-image-card reveal">
-                        <img src="./security-plus.jpg" alt="CompTIA Security+" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%23b34a3a%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2218%22 font-weight=%22bold%22%3ESecurity%2B%3C/text%3E%3C/svg%3E'">
-                        <div class="cert-image-overlay">
-                            <i class="fas fa-search-plus cert-zoom-icon"></i>
-                        </div>
-                    </div>
-                    <div class="cert-image-card reveal">
-                        <img src="./lpic-1.jpg" alt="Linux Professional" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%23ffb86b%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%231a0f0b%22 font-size=%2220%22 font-weight=%22bold%22%3ELPIC-1%3C/text%3E%3C/svg%3E'">
-                        <div class="cert-image-overlay">
-                            <i class="fas fa-search-plus cert-zoom-icon"></i>
-                        </div>
-                    </div>
-                    <div class="cert-image-card reveal">
-                        <img src="./vmware-vcp.jpg" alt="VMware VCP" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%2207b344%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2220%22 font-weight=%22bold%22%3EVMware VCP%3C/text%3E%3C/svg%3E'">
-                        <div class="cert-image-overlay">
-                            <i class="fas fa-search-plus cert-zoom-icon"></i>
-                        </div>
-                    </div>
-                    <div class="cert-image-card reveal">
-                        <img src="./ceh-certified.jpg" alt="Certified Ethical Hacker" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 260%22%3E%3Crect fill=%22%23ec1c24%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2218%22 font-weight=%22bold%22%3ECEH%3C/text%3E%3C/svg%3E'">
-                        <div class="cert-image-overlay">
-                            <i class="fas fa-search-plus cert-zoom-icon"></i>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="separator"></div>
-
-            <!-- Projects -->
-            <section id="projects" class="section">
-                <div class="section-header reveal">
-                    <div class="section-tag">Réalisations</div>
-                    <h2 class="section-title">Mes Projets</h2>
-                    <p class="section-description">Projets techniques et réalisations innovantes</p>
-                </div>
-
-                <div class="cards-grid">
-                    <div class="project-card reveal">
-                        <div class="project-header">
-                            <h3>RNPA</h3>
-                            <div class="project-type">Projet Dev et Réseaux</div>
-                        </div>
-                        <div class="project-content">
-                            <p class="project-description">Développement d'un site internet automatisée informant sur les sorties et les promos des jeux gratuits venant de toutes plateformes.</p>
-                            <div class="project-tags">
-                                <span class="tag">HTML/CSS/JS</span>
-                                <span class="tag">Hébergement</span>
-                                <span class="tag">UX/UI</span>
-                                <span class="tag">Bot</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card reveal">
-                        <div class="project-header">
-<h3>Projet Audiovisuel</h3>
-<div class="project-type">Mise en place d’un NAS</div>
-
-<div class="project-content">
-    <p class="project-description">
-        Mise en place et configuration d’un NAS au sein de l’infrastructure audiovisuelle.
-        Configuration du stockage en réseau pour permettre l’accès centralisé aux fichiers,
-        le partage des projets entre les utilisateurs et la sécurisation des données.
-
-        Gestion des droits d’accès, organisation des espaces de stockage
-        et optimisation des performances pour un environnement de production audio et vidéo.
-        
-        Voir le projet : 
-        <a href="https://projet-nas.alwaysdata.net/" target="_blank">
-            https://projet-nas.alwaysdata.net/
-        </a>
-    </p>
-
-    <div class="project-tags">
-        <span class="tag">NAS</span>
-        <span class="tag">Stockage Réseau</span>
-        <span class="tag">Partage de fichiers</span>
-        <span class="tag">Administration Système</span>
+  <div class="sb-footer">
+    <div class="sb-tags">
+      <span class="sb-tag">HTML/CSS/JS</span>
+      <span class="sb-tag">Réseaux</span>
+      <span class="sb-tag">PHP/SQL</span>
+      <span class="sb-tag">Linux</span>
+      <span class="sb-tag">Virtualisation</span>
+      <span class="sb-tag">Cybersec</span>
     </div>
+  </div>
+</aside>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+  <div class="mob-links">
+    <a href="#home" class="mob-link active"><i class="fas fa-house"></i></a>
+    <a href="#about" class="mob-link"><i class="fas fa-user"></i></a>
+    <a href="#skills" class="mob-link"><i class="fas fa-code"></i></a>
+    <a href="#projects" class="mob-link"><i class="fas fa-folder-open"></i></a>
+    <a href="#synthese" class="mob-link"><i class="fas fa-table-cells"></i></a>
+    <a href="#contact" class="mob-link"><i class="fas fa-envelope"></i></a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- ── HERO ── -->
+<section id="home">
+  <div class="hero-noise"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow reveal">Étudiant BTS SIO SISR</div>
+      <h1 class="hero-title reveal">Portfolio<br/><span class="hl">Arab Rayan</span></h1>
+      <p class="hero-desc reveal">Étudiant passionné par les réseaux, l'administration système et les technologies émergentes. Spécialisé en Solutions d'Infrastructure, Systèmes et Réseaux.</p>
+      <div class="hero-btns reveal">
+        <a href="#projects" class="btn btn-orange"><i class="fas fa-rocket"></i> Voir mes projets</a>
+        <a href="cv.pdf" class="btn btn-ghost"><i class="fas fa-file-pdf"></i> Mon CV</a>
+        <a href="#veille" class="btn btn-ghost"><i class="fas fa-globe"></i> Ma veille</a>
+      </div>
+      <div class="hero-stats">
+        <div class="h-stat reveal"><span class="h-stat-num">2+</span><span class="h-stat-label">Années BTS</span></div>
+        <div class="h-stat reveal"><span class="h-stat-num">3+</span><span class="h-stat-label">Projets</span></div>
+        <div class="h-stat reveal"><span class="h-stat-num">3</span><span class="h-stat-label">Stages</span></div>
+        <div class="h-stat reveal"><span class="h-stat-num">2+</span><span class="h-stat-label">Certifications</span></div>
+      </div>
+    </div>
+    <div class="hero-photo-wrap reveal">
+      <div class="hero-photo-frame">
+        <img src="photo_4.png" alt="Arab Rayan" onerror="this.src='pp.png'"/>
+      </div>
+      <div class="hero-photo-badge">💼 Open to work</div>
+    </div>
+  </div>
+  <div class="hero-bg-line"></div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about" class="sec">
+  <div class="sec-tag reveal">À propos</div>
+  <h2 class="sec-title reveal">Qui suis-<span>je</span> ?</h2>
+  <p class="sec-desc reveal">Étudiant passionné par l'informatique en général, l'administration système/réseaux et les technologies émergentes.</p>
+  <div class="cards-3">
+    <div class="card reveal">
+      <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+      <h3>Formation</h3>
+      <p>BTS SIO option SISR, spécialisée en administration système, infrastructure, et virtualisation.</p>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+      <h3>Objectif</h3>
+      <p>Poursuivre en licence professionnelle spécialisée en réseaux ou cybersécurité, pour évoluer vers un poste d'administrateur réseaux confirmé.</p>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon"><i class="fas fa-gamepad"></i></div>
+      <h3>Centres d'intérêt</h3>
+      <p>Actualité tech, sport, formation autonome en réseaux via tutoriels et exercices pratiques, développement de projets personnels.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills" class="sec">
+  <div class="sec-tag reveal">Compétences</div>
+  <h2 class="sec-title reveal">Expertises <span>Techniques</span></h2>
+  <p class="sec-desc reveal">Technologies maîtrisées en administration système, infrastructure et virtualisation.</p>
+  <div class="cards-3">
+    <div class="card reveal">
+      <div class="skill-cat-title"><i class="fas fa-shield-halved"></i> Administration Système</div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Configurer un réseau</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="100%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Sécuriser des systèmes</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Mise en place d'OS</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80%"></div></div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="skill-cat-title"><i class="fas fa-network-wired"></i> Infrastructure</div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Protocoles réseau</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Optimisation systèmes</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Matériel informatique</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="90%"></div></div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="skill-cat-title"><i class="fas fa-server"></i> Virtualisation</div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">VirtualBox</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="90%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Linux Admin</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Windows Server</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80%"></div></div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="skill-cat-title"><i class="fas fa-code"></i> Développement</div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">HTML / CSS / JS</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">PHP / SQL</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="60%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Python</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="60%"></div></div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="skill-cat-title"><i class="fas fa-vr-cardboard"></i> Expérimentation</div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Unity / Unreal E5</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="70%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">UX / UI Design</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="70%"></div></div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="skill-cat-title"><i class="fas fa-shield-alt"></i> Cybersécurité</div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Investigation numérique</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Autopsy / FTK</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="60%"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-head"><span class="skill-name">Active Directory</span><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar" data-w="80%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CERTIFICATIONS ── -->
+<section id="certifications" class="sec">
+  <div class="sec-tag reveal">Certifications</div>
+  <h2 class="sec-title reveal">Mes <span>Certifications</span></h2>
+  <p class="sec-desc reveal">Certifications obtenues et en cours de préparation.</p>
+  <div class="cert-grid">
+    <div class="cert-card reveal" data-src="./ebios.jpg" data-alt="EBIOS">
+      <img src="./ebios.jpg" alt="EBIOS" onerror="this.style.display='none';this.parentElement.style.background='#1a1a1a';this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:10px\'><i class=\'fas fa-certificate\' style=\'font-size:2rem;color:var(--orange)\'></i><span style=\'color:var(--muted);font-size:.8rem;text-align:center;padding:0 10px\'>EBIOS</span></div>'"/>
+      <div class="cert-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+    </div>
+    <div class="cert-card reveal" data-src="./cisco.jpg" data-alt="Cisco Packet Tracer">
+      <img src="./cisco.jpg" alt="Cisco Packet Tracer" onerror="this.style.display='none';this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:10px\'><i class=\'fas fa-certificate\' style=\'font-size:2rem;color:var(--orange)\'></i><span style=\'color:var(--muted);font-size:.8rem;text-align:center;padding:0 10px\'>Cisco Packet Tracer</span></div>'"/>
+      <div class="cert-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+    </div>
+    <div class="cert-card reveal" data-src="./security-plus.jpg" data-alt="CompTIA Security+">
+      <img src="./security-plus.jpg" alt="Security+" onerror="this.style.display='none';this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:10px\'><i class=\'fas fa-certificate\' style=\'font-size:2rem;color:var(--orange)\'></i><span style=\'color:var(--muted);font-size:.8rem;text-align:center;padding:0 10px\'>Security+</span></div>'"/>
+      <div class="cert-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+    </div>
+    <div class="cert-card reveal" data-src="./lpic-1.jpg" data-alt="LPIC-1">
+      <img src="./lpic-1.jpg" alt="LPIC-1" onerror="this.style.display='none';this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:10px\'><i class=\'fas fa-certificate\' style=\'font-size:2rem;color:var(--orange)\'></i><span style=\'color:var(--muted);font-size:.8rem;text-align:center;padding:0 10px\'>LPIC-1</span></div>'"/>
+      <div class="cert-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+    </div>
+    <div class="cert-card reveal" data-src="./vmware-vcp.jpg" data-alt="VMware VCP">
+      <img src="./vmware-vcp.jpg" alt="VMware VCP" onerror="this.style.display='none';this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:10px\'><i class=\'fas fa-certificate\' style=\'font-size:2rem;color:var(--orange)\'></i><span style=\'color:var(--muted);font-size:.8rem;text-align:center;padding:0 10px\'>VMware VCP</span></div>'"/>
+      <div class="cert-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+    </div>
+    <div class="cert-card reveal" data-src="./ceh-certified.jpg" data-alt="CEH">
+      <img src="./ceh-certified.jpg" alt="CEH" onerror="this.style.display='none';this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:10px\'><i class=\'fas fa-certificate\' style=\'font-size:2rem;color:var(--orange)\'></i><span style=\'color:var(--muted);font-size:.8rem;text-align:center;padding:0 10px\'>CEH</span></div>'"/>
+      <div class="cert-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects" class="sec">
+  <div class="sec-tag reveal">Réalisations</div>
+  <h2 class="sec-title reveal">Mes <span>Projets</span></h2>
+  <p class="sec-desc reveal">Projets techniques et réalisations innovantes dans le cadre du BTS et en autonomie.</p>
+  <div class="cards-2" style="gap:20px">
+    <div class="project-card reveal">
+      <div class="proj-header">
+        <div class="proj-icon"><i class="fas fa-globe"></i></div>
+        <a href="#" class="proj-ext" title="Voir le projet"><i class="fas fa-arrow-up-right-from-square"></i></a>
+      </div>
+      <div class="proj-body" style="display:block">
+        <div class="proj-tag">Dev &amp; Réseaux</div>
+        <div class="proj-title">RNPA — Free Games Tracker</div>
+        <div class="proj-desc">Développement d'un site internet automatisé informant sur les sorties et promos des jeux gratuits venant de toutes plateformes. Bot intégré pour les notifications.</div>
+        <div class="proj-stack">
+          <span class="proj-pill">HTML/CSS/JS</span>
+          <span class="proj-pill">Hébergement</span>
+          <span class="proj-pill">UX/UI</span>
+          <span class="proj-pill">Bot</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="proj-header">
+        <div class="proj-icon"><i class="fas fa-hard-drive"></i></div>
+        <a href="https://projet-nas.alwaysdata.net/" class="proj-ext" target="_blank" title="Voir le projet"><i class="fas fa-arrow-up-right-from-square"></i></a>
+      </div>
+      <div class="proj-body" style="display:block">
+        <div class="proj-tag">Infrastructure</div>
+        <div class="proj-title">NAS Centre Audiovisuel</div>
+        <div class="proj-desc">Mise en place et configuration d'un NAS Buffalo TeraStation TS-XL au sein du lycée Turgot. Stockage centralisé, droits d'accès, partage de fichiers pour les classes CAV. IP : 172.31.3.71</div>
+        <div class="proj-stack">
+          <span class="proj-pill">NAS</span>
+          <span class="proj-pill">Stockage Réseau</span>
+          <span class="proj-pill">Partage Fichiers</span>
+          <span class="proj-pill">Admin Système</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FORMATION ── -->
+<section id="formation" class="sec">
+  <div class="sec-tag reveal">Parcours</div>
+  <h2 class="sec-title reveal">Mon Parcours de <span>Formation</span></h2>
+  <p class="sec-desc reveal"></p>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-date">2022 — 2024</div>
+        <div class="tl-title">BTS Services Informatiques aux Organisations</div>
+        <div class="tl-sub">Option SISR — Solutions d'Infrastructure, Systèmes et Réseaux</div>
+        <div class="tl-desc">Formation spécialisée en administration systèmes, réseaux et cybersécurité. Acquisition de compétences en virtualisation, sécurisation d'infrastructures et cyber-défense. Projets : Infrastructure sécurisée, Lab pentesting, Solution monitoring, Cloud hybride, Audit sécurité.</div>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-date">2019 — 2022</div>
+        <div class="tl-title">Baccalauréat Professionnel Systèmes Numériques</div>
+        <div class="tl-sub">Option Réseaux Informatiques et Systèmes Communicants</div>
+        <div class="tl-desc">Formation spécialisée en technologies réseau, électronique numérique, systèmes embarqués et installation/configuration d'équipements réseau. Compétences en câblage et administration système.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VEILLE ── -->
+<section id="veille" class="sec">
+  <div class="sec-tag reveal">Veille</div>
+  <h2 class="sec-title reveal">Ma Veille <span>Informatique</span></h2>
+  <p class="sec-desc reveal">Site dédié à la veille technologique — actualités, tutoriels et nouvelles du secteur.</p>
+  <div class="veille-box reveal">
+    <div class="veille-top">
+      <h3><i class="fas fa-newspaper"></i> Veille Technologique</h3>
+      <div class="veille-actions">
+        <button class="veille-btn" onclick="var f=document.getElementById('veilleFrame');f.src=f.src"><i class="fas fa-rotate-right"></i></button>
+        <a href="https://veille-informatique.alwaysdata.net/" target="_blank" class="veille-btn"><i class="fas fa-up-right-from-square"></i> Ouvrir</a>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe id="veilleFrame" src="https://veille-informatique.alwaysdata.net/" title="Veille Informatique"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ── SYNTHESE ── -->
+<section id="synthese" class="sec">
+  <div class="sec-tag reveal">Synthèse</div>
+  <h2 class="sec-title reveal">Tableau de <span>Synthèse</span></h2>
+  <p class="sec-desc reveal">Événements, veille informatique et sources d'information clés.</p>
+  <div class="synth-box reveal">
+    <div class="synth-grid">
+      <div class="synth-img" id="synthImgCard">
+        <img src="Tableau de synthèse.jpg" alt="Tableau de Synthèse" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22%3E%3Crect fill=%22%231a1a1a%22 width=%22400%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 fill=%22%23ff4d00%22 font-size=%2224%22 font-family=%22sans-serif%22%3ETableau de Synthèse%3C/text%3E%3C/svg%3E'"/>
+        <div class="synth-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="synth-text">
+        <h3>Description</h3>
+        <p>Mon tableau de synthèse regroupe les informations essentielles de ma veille informatique, les événements clés auxquels j'ai participé et les sources d'information que je suis régulièrement. Cet outil me permet de consolider les connaissances acquises et de rester informé sur les dernières tendances technologiques.</p>
+      </div>
+    </div>
+    <div class="synth-section-title reveal"><i class="fas fa-calendar-days"></i> Événements</div>
+    <div class="synth-event reveal">
+      <div class="synth-dot"></div>
+      <div>
+        <h4>Salon Open Source Experience</h4>
+        <div class="evt-date">Décembre 2025</div>
+        <p>Rencontre de professionnels et échanges dans le domaine du réseau, de la sécurité, du développement d'infrastructures, etc.</p>
+      </div>
+    </div>
+    <div class="synth-section-title reveal"><i class="fas fa-link"></i> Sources d'Information</div>
+    <div class="sources-grid">
+      <div class="source-card reveal">
+        <i class="fas fa-newspaper"></i>
+        <h4>Open Source Experience</h4>
+        <p>Actualités, conférences quotidiennes sur l'informatique et l'infrastructure</p>
+      </div>
+      <div class="source-card reveal">
+        <i class="fas fa-globe"></i>
+        <h4>Veille personnelle</h4>
+        <p>Site dédié à la veille technologique sur alwaysdata</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience" class="sec">
+  <div class="sec-tag reveal">Expérience</div>
+  <h2 class="sec-title reveal">Expérience <span>Professionnelle</span></h2>
+  <p class="sec-desc reveal">Stages et expériences enrichissantes acquises lors du BTS.</p>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-date">Mars — Juin 2024 · 12 semaines</div>
+        <div class="tl-title">Administrateur Système &amp; Sécurité</div>
+        <div class="tl-sub">DSI 3F Immobilier · Paris, France</div>
+        <div class="tl-desc">Administration de 500+ serveurs Windows/Linux, mise en place de politiques de sécurité Active Directory, configuration Veeam, monitoring SCOM/Nagios et participation aux projets de migration cloud Azure.</div>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-date">Mai — Juillet 2023 · 10 semaines</div>
+        <div class="tl-title">Cybersécurité &amp; Investigation Numérique</div>
+        <div class="tl-sub">Gendarmerie Nationale · STRJD, Fort de Rosny-sous-Bois</div>
+        <div class="tl-desc">Participation à des enquêtes de cybercriminalité, analyse forensique avec Autopsy et FTK, récupération de données, veille sur les menaces cyber et formation aux outils d'investigation numérique.</div>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-date">Octobre 2022 — Février 2023 · 16 semaines</div>
+        <div class="tl-title">Technicien Informatique &amp; Formation</div>
+        <div class="tl-sub">Le Garage Numérique · Paris 19ème</div>
+        <div class="tl-desc">Réparation et maintenance de 80+ ordinateurs, installation Linux/Windows, formation des bénéficiaires et sensibilisation à la cybersécurité personnelle. Association de réinsertion sociale par le numérique.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact" class="sec">
+  <div class="sec-tag reveal">Contact</div>
+  <h2 class="sec-title reveal">Restons en <span>contact</span></h2>
+  <p class="sec-desc reveal">N'hésitez pas à me contacter pour toute opportunité.</p>
+  <div class="contact-grid">
+    <a href="mailto:arab.rayan9307@gmail.com" class="contact-card reveal">
+      <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+      <div><h3>Email</h3><p>arab.rayan9307@gmail.com</p></div>
+    </a>
+    <a href="tel:+33766329348" class="contact-card reveal">
+      <div class="contact-icon"><i class="fas fa-phone"></i></div>
+      <div><h3>Téléphone</h3><p>+33 7 66 32 93 48</p></div>
+    </a>
+    <div class="contact-card reveal">
+      <div class="contact-icon"><i class="fas fa-location-dot"></i></div>
+      <div><h3>Localisation</h3><p>Île-de-France, France</p></div>
+    </div>
+    <div class="contact-card reveal">
+      <div class="contact-icon"><i class="fas fa-briefcase"></i></div>
+      <div><h3>Disponibilité</h3><p>Ouvert aux opportunités · Alternance / Stage</p></div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /main -->
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+  <div class="modal-inner">
+    <img src="" alt="" class="modal-img" id="modalImg"/>
+    <div class="modal-controls">
+      <button class="modal-btn" id="zoomIn"><i class="fas fa-plus"></i></button>
+      <span class="modal-zoom-val" id="zoomVal">100%</span>
+      <button class="modal-btn" id="zoomOut"><i class="fas fa-minus"></i></button>
+    </div>
+  </div>
 </div>
 
-            </section>
+<script>
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
 
-            <div class="separator"></div>
+// ── ACTIVE NAV ──
+const navItems=document.querySelectorAll('.nav-item,.mob-link');
+const secs=document.querySelectorAll('section[id]');
+function setActive(){
+  let cur='home';
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-160)cur=s.id});
+  navItems.forEach(n=>{
+    n.classList.remove('active');
+    if(n.getAttribute('href')==='#'+cur)n.classList.add('active');
+  });
+}
+window.addEventListener('scroll',setActive,{passive:true});
+setActive();
 
-            <!-- Formation -->
-            <section id="formation" class="section">
-                <div class="section-header reveal">
-                    <div class="section-tag">Parcours</div>
-                    <h2 class="section-title">Mon Parcours de Formation</h2>
-                    <p class="section-description"></p>
-                </div>
+// ── REVEAL ──
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-                <div class="timeline">
-                    <div class="timeline-item reveal">
-                        <div class="timeline-card">
-                            <div class="timeline-date">2022 - 2024</div>
-                            <div class="timeline-title">BTS Services Informatiques aux Organisations</div>
-                            <div class="timeline-company">Option SISR - Solutions d'Infrastructure, Systèmes et Réseaux</div>
-                            <div class="timeline-description">
-                                Formation spécialisée en administration systèmes, réseaux et cybersécurité. Acquisition de compétences en virtualisation, sécurisation d'infrastructures et cyber-défense. Projets : Infrastructure sécurisée, Lab pentesting, Solution monitoring, Cloud hybride, Audit sécurité.
-                            </div>
-                        </div>
-                    </div>
+// ── SKILL BARS animate on reveal ──
+const barObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.skill-bar').forEach(b=>{
+        b.style.width=b.dataset.w||'70%';
+      });
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('.card').forEach(c=>barObs.observe(c));
+// init bars at 0
+document.querySelectorAll('.skill-bar').forEach(b=>b.style.width='0');
 
-                    <div class="timeline-item reveal">
-                        <div class="timeline-card">
-                            <div class="timeline-date">2019 - 2022</div>
-                            <div class="timeline-title">Baccalauréat Professionnel Systèmes Numériques</div>
-                            <div class="timeline-company">Option Réseaux Informatiques et Systèmes Communicants</div>
-                            <div class="timeline-description">
-                                Formation spécialisée en technologies réseau, électronique numérique, systèmes embarqués et installation/configuration d'équipements réseau. Compétences en câblage et administration système.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+// ── MODAL ──
+const modal=document.getElementById('modal');
+const modalImg=document.getElementById('modalImg');
+const modalClose=document.getElementById('modalClose');
+const zoomInBtn=document.getElementById('zoomIn');
+const zoomOutBtn=document.getElementById('zoomOut');
+const zoomVal=document.getElementById('zoomVal');
+let zoom=1;
 
-            <div class="separator"></div>
+function openModal(src,alt){
+  modalImg.src=src;modalImg.alt=alt||'';
+  zoom=1;modalImg.style.transform=`scale(1)`;zoomVal.textContent='100%';
+  modal.classList.add('open');
+}
+function closeModal(){modal.classList.remove('open')}
 
-            <!-- Veille -->
-            <section id="veille" class="section">
-                <div class="section-header reveal">
-                    <div class="section-tag">Veille</div>
-                    <h2 class="section-title">Ma Veille Informatique</h2>
-                    <p class="section-description">Site dédié à la veille technologique</p>
-                </div>
+// cert cards
+document.querySelectorAll('.cert-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    const img=card.querySelector('img');
+    if(img&&img.src)openModal(img.src,card.dataset.alt||img.alt);
+  });
+});
 
-                <div class="veille-container reveal">
-                    <div class="veille-header">
-                        <h3><i class="fas fa-newspaper"></i> Veille Technologique</h3>
-                        <div class="veille-controls">
-                            <button class="veille-btn" onclick="document.getElementById('veilleFrame').src = document.getElementById('veilleFrame').src">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                            <a href="https://veille-informatique.alwaysdata.net/" target="_blank" class="veille-btn">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="iframe-container">
-                        <iframe 
-                            id="veilleFrame"
-                            src="https://veille-informatique.alwaysdata.net/"
-                            title="Veille Informatique"
-                        ></iframe>
-                    </div>
-                </div>
-            </section>
+// synth image
+document.getElementById('synthImgCard').addEventListener('click',()=>{
+  const img=document.querySelector('#synthImgCard img');
+  if(img)openModal(img.src,'Tableau de Synthèse');
+});
 
-            <div class="separator"></div>
+modalClose.addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 
-            <!-- Tableau de Synthèse -->
-            <section id="tableau-synthese" class="section">
-                <div class="section-header reveal">
-                    <div class="section-tag">Synthèse</div>
-                    <h2 class="section-title">Tableau de Synthèse</h2>
-                    <p class="section-description">Événements, veille informatique et sources d'information clés</p>
-                </div>
+zoomInBtn.addEventListener('click',()=>{
+  if(zoom<3){zoom=Math.min(3,zoom+.2);modalImg.style.transform=`scale(${zoom})`;zoomVal.textContent=Math.round(zoom*100)+'%'}
+});
+zoomOutBtn.addEventListener('click',()=>{
+  if(zoom>1){zoom=Math.max(1,zoom-.2);modalImg.style.transform=`scale(${zoom})`;zoomVal.textContent=Math.round(zoom*100)+'%'}
+});
 
-                <div class="synthese-container reveal">
-                    <div class="synthese-grid">
-                        <div class="synthese-image-card" id="syntheseImageCard">
-                            <img src="Tableau de synthèse.jpg" alt="Tableau de Synthèse" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 400%22%3E%3Crect fill=%22%23d87a2d%22 width=%22600%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2240%22 font-weight=%22bold%22%3ETableau de Synthèse%3C/text%3E%3C/svg%3E'">\n                            <div class="synthese-image-overlay">\n                                <i class="fas fa-search-plus synthese-zoom-icon"></i>\n                            </div>
-                        </div>
-                        <div class="synthese-content">
-                            <h3>Description</h3>
-                            <p>Mon tableau de synthèse regroupe les informations essentielles de ma veille informatique, les événements clés auxquels j'ai participé et les sources d'information que je suis régulièrement. Cet outil me permet de consolider les connaissances acquises et de rester informée sur les dernières tendances technologiques.</p>
-                        </div>
-                    </div>
-
-                    <div class="synthese-section reveal">
-                        <h3><i class="fas fa-calendar-alt"></i> Événements</h3>
-                        <div class="synthese-items">
-                            <div class="synthese-item">
-                                <div class="synthese-dot"></div>
-                                <div class="synthese-item-content">
-                                    <h4>Salon Open Source Experience</h4>
-                                    <p class="synthese-date">Décembre 2025</p>
-                                    <p>Rencontre de professionnel et échange dans le domaine du réseau de la sécurité du développement infrastructures etc...</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <div class="synthese-section reveal">
-                        <h3><i class="fas fa-link"></i> Sources d'Information</h3>
-                        <div class="sources-grid">
-                            <div class="source-card">
-                                <i class="fas fa-newspaper"></i>
-                                <h4>Opensources Exeprience</h4>
-                                <p>Actualités, conférence quotidiennes sur l'informatique et l'infrastructure</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="separator"></div>
-
-            <!-- Experience -->
-            <section id="experience" class="section">
-                <div class="section-header reveal">
-                    <div class="section-tag">Expérience</div>
-                    <h2 class="section-title">Mon Expérience Professionnelle</h2>
-                    <p class="section-description">Stages et expériences enrichissantes</p>
-                </div>
-
-                <div class="timeline">
-                    <div class="timeline-item reveal">
-                        <div class="timeline-card">
-                            <div class="timeline-date">Mars - Juin 2024 (12 semaines)</div>
-                            <div class="timeline-title">Administrateur Système & Sécurité</div>
-                            <div class="timeline-company">DSI 3F Immobilier - Paris, France</div>
-                            <div class="timeline-description">
-                                Administration de 500+ serveurs Windows/Linux, mise en place de politiques de sécurité Active Directory, configuration Veeam, monitoring SCOM/Nagios et participation aux projets de migration cloud Azure.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item reveal">
-                        <div class="timeline-card">
-                            <div class="timeline-date">Mai - Juillet 2023 (10 semaines)</div>
-                            <div class="timeline-title">Cybersécurité & Investigation Numérique</div>
-                            <div class="timeline-company">Gendarmerie Nationale - STRJD, Fort de Rosny-sous-Bois</div>
-                            <div class="timeline-description">
-                                Participation à des enquêtes de cybercriminalité, analyse forensique avec Autopsy et FTK, récupération de données, veille sur les menaces cyber et formation aux outils d'investigation numérique.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item reveal">
-                        <div class="timeline-card">
-                            <div class="timeline-date">Octobre 2022 - Février 2023 (16 semaines)</div>
-                            <div class="timeline-title">Technicien Informatique & Formation</div>
-                            <div class="timeline-company">Le Garage Numérique - Paris 19ème</div>
-                            <div class="timeline-description">
-                                Réparation et maintenance de 80+ ordinateurs, installation Linux/Windows, formation des bénéficiaires et sensibilisation à la cybersécurité personnelle (Association de réinsertion sociale par le numérique).
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="separator"></div>
-
-            <!-- Contact -->
-            <section id="contact" class="section">
-                <div class="section-header reveal">
-                    <div class="section-tag">Contact</div>
-                    <h2 class="section-title">Restons en contact</h2>
-                    <p class="section-description">N'hésitez pas à me contacter pour toute opportunité</p>
-                </div>
-
-                <div class="contact-grid">
-                    <div class="contact-item reveal">
-                        <i class="fas fa-envelope contact-icon"></i>
-                        <div>
-                            <h3>Email</h3>
-                            <p><a href="mailto:arab.rayan9307@gmail.com">arab.rayan9307@gmail.com</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item reveal">
-                        <i class="fas fa-phone contact-icon"></i>
-                        <div>
-                            <h3>Téléphone</h3>
-                            <p><a href="tel:+33766329348">+33 7 66 32 93 48</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item reveal">
-                        <i class="fas fa-map-marker-alt contact-icon"></i>
-                        <div>
-                            <h3>Localisation</h3>
-                            <p>Île-de-France, France</p>
-                        </div>
-                    </div>
-                    <div class="contact-item reveal">
-                        <i class="fas fa-briefcase contact-icon"></i>
-                        <div>
-                            <h3>Disponibilité</h3>
-                            <p>Ouvert aux opportunités (Alternance/Stage...)</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <!-- Modal for Certification Images -->
-    <div class="cert-modal" id="certModal">
-        <div class="cert-modal-content">
-            <button class="cert-close-btn" id="certCloseBtn">
-                <i class="fas fa-times"></i>
-            </button>
-            <img src="" alt="Certification" class="cert-modal-image" id="certImage">
-            <div class="cert-modal-controls">
-                <button class="cert-zoom-btn" id="zoomInBtn">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <span class="cert-zoom-level" id="zoomLevel">100%</span>
-                <button class="cert-zoom-btn" id="zoomOutBtn">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Synthese Image -->
-    <div class="synthese-modal" id="syntheseModal">
-        <div class="synthese-modal-content">
-            <button class="synthese-close-btn" id="syntheseCloseBtn">
-                <i class="fas fa-times"></i>
-            </button>
-            <img src="" alt="Tableau de Synthèse" class="synthese-modal-image" id="syntheseImage">
-            <div class="synthese-modal-controls">
-                <button class="synthese-zoom-btn" id="syntheseZoomInBtn">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <span class="synthese-zoom-level" id="syntheseZoomLevel">100%</span>
-                <button class="synthese-zoom-btn" id="syntheseZoomOutBtn">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Smooth scroll amélioré
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const target = document.querySelector(targetId);
-                if (target) {
-                    const headerOffset = 100;
-                    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPosition = elementPosition - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Navigation
-        const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
-        const sections = document.querySelectorAll('section');
-
-        function setActive() {
-            let current = 'home';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 150;
-                if (window.scrollY >= sectionTop) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', setActive);
-        setActive(); // Appel initial
-
-        // Reveal animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // Parallax effect on scroll
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.hero-content');
-            parallaxElements.forEach(el => {
-                el.style.transform = `translateY(${scrolled * 0.1}px)`;
-            });
-        });
-
-        // Add dynamic glow effect to cards on mouse move
-        document.querySelectorAll('.card, .stat-card, .project-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
-            });
-        });
-
-        // Certification Modal Logic
-        const certModal = document.getElementById('certModal');
-        const certImage = document.getElementById('certImage');
-        const certCloseBtn = document.getElementById('certCloseBtn');
-        const zoomInBtn = document.getElementById('zoomInBtn');
-        const zoomOutBtn = document.getElementById('zoomOutBtn');
-        const zoomLevel = document.getElementById('zoomLevel');
-
-        let currentZoom = 1;
-
-        document.querySelectorAll('.cert-image-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const imgSrc = card.querySelector('img').src;
-                const imgAlt = card.querySelector('img').alt;
-                certImage.src = imgSrc;
-                certImage.alt = imgAlt;
-                certModal.classList.add('active');
-                currentZoom = 1;
-                certImage.style.transform = `scale(${currentZoom})`;
-                zoomLevel.innerText = `${Math.round(currentZoom * 100)}%`;
-            });
-        });
-
-        certCloseBtn.addEventListener('click', () => {
-            certModal.classList.remove('active');
-        });
-
-        zoomInBtn.addEventListener('click', () => {
-            if (currentZoom < 2.5) {
-                currentZoom += 0.2;
-                certImage.style.transform = `scale(${currentZoom})`;
-                zoomLevel.innerText = `${Math.round(currentZoom * 100)}%`;
-            }
-        });
-
-        zoomOutBtn.addEventListener('click', () => {
-            if (currentZoom > 1) {
-                currentZoom = Math.max(1, currentZoom - 0.2);
-                certImage.style.transform = `scale(${currentZoom})`;
-                zoomLevel.innerText = `${Math.round(currentZoom * 100)}%`;
-            }
-        });
-
-        // Close modal on outside click
-        window.addEventListener('click', (e) => {
-            if (e.target === certModal) {
-                certModal.classList.remove('active');
-            }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && certModal.classList.contains('active')) {
-                certModal.classList.remove('active');
-            }
-        });
-
-        // Synthese Modal Logic (same as certifications but for tableau de synthèse)
-        const syntheseModal = document.getElementById('syntheseModal');
-        const syntheseImage = document.getElementById('syntheseImage');
-        const syntheseCloseBtn = document.getElementById('syntheseCloseBtn');
-        const syntheseZoomInBtn = document.getElementById('syntheseZoomInBtn');
-        const syntheseZoomOutBtn = document.getElementById('syntheseZoomOutBtn');
-        const syntheseZoomLevel = document.getElementById('syntheseZoomLevel');
-        const syntheseImageCard = document.getElementById('syntheseImageCard');
-
-        let syntheseCurrentZoom = 1;
-
-        if (syntheseImageCard) {
-            // Click only on the image or overlay to open modal
-            const syntheseImg = syntheseImageCard.querySelector('img');
-            const syntheseOverlay = syntheseImageCard.querySelector('.synthese-image-overlay');
-            
-            if (syntheseImg) {
-                syntheseImg.addEventListener('click', openSynthesisModal);
-            }
-            if (syntheseOverlay) {
-                syntheseOverlay.addEventListener('click', openSynthesisModal);
-            }
-        }
-
-        function openSynthesisModal() {
-            const syntheseImg = syntheseImageCard.querySelector('img');
-            const imgSrc = syntheseImg.src;
-            const imgAlt = syntheseImg.alt;
-            syntheseImage.src = imgSrc;
-            syntheseImage.alt = imgAlt;
-            syntheseModal.classList.add('active');
-            syntheseCurrentZoom = 1;
-            syntheseImage.style.transform = `scale(${syntheseCurrentZoom})`;
-            syntheseZoomLevel.innerText = `${Math.round(syntheseCurrentZoom * 100)}%`;
-        }
-
-        if (syntheseCloseBtn) {
-            syntheseCloseBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                syntheseModal.classList.remove('active');
-            });
-        }
-
-        if (syntheseZoomInBtn) {
-            syntheseZoomInBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (syntheseCurrentZoom < 3) {
-                    syntheseCurrentZoom += 0.2;
-                    syntheseImage.style.transform = `scale(${syntheseCurrentZoom})`;
-                    syntheseZoomLevel.innerText = `${Math.round(syntheseCurrentZoom * 100)}%`;
-                }
-            });
-        }
-
-        if (syntheseZoomOutBtn) {
-            syntheseZoomOutBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (syntheseCurrentZoom > 1) {
-                    syntheseCurrentZoom = Math.max(1, syntheseCurrentZoom - 0.2);
-                    syntheseImage.style.transform = `scale(${syntheseCurrentZoom})`;
-                    syntheseZoomLevel.innerText = `${Math.round(syntheseCurrentZoom * 100)}%`;
-                }
-            });
-        }
-
-        // Close synthese modal on outside click (click on the dark background only)
-        if (syntheseModal) {
-            syntheseModal.addEventListener('click', (e) => {
-                if (e.target === syntheseModal) {
-                    syntheseModal.classList.remove('active');
-                }
-            });
-        }
-
-        // Close synthese modal with Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && syntheseModal && syntheseModal.classList.contains('active')) {
-                syntheseModal.classList.remove('active');
-            }
-        });
-    </script>
+// ── CARD HOVER GLOW (subtle) ──
+document.querySelectorAll('.card,.tl-card,.project-card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    const x=((e.clientX-r.left)/r.width*100).toFixed(1);
+    const y=((e.clientY-r.top)/r.height*100).toFixed(1);
+    c.style.background=`radial-gradient(circle at ${x}% ${y}%, rgba(255,77,0,0.04) 0%, var(--card) 60%)`;
+  });
+  c.addEventListener('mouseleave',()=>{c.style.background=''});
+});
+</script>
 </body>
 </html>
